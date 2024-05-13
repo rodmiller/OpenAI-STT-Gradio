@@ -21,7 +21,7 @@ def show_json(obj):
     return json.loads(obj.model_dump_json())
 
 def pretty_print(messages):
-	print(“Messages”)
+	print("Messages")
 	for m in messages:
 	print(f"{m.role}: {m.content[0].text.value}")
 	print()
