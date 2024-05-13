@@ -20,6 +20,12 @@ if openai_key == "":
 def show_json(obj):
     return json.loads(obj.model_dump_json())
 
+def pretty_print(messages):
+	print(“# Messages”)
+	for m in messages:
+	print(f"{m.role}: {m.content[0].text.value}")
+	print()
+
 def transcript(audio, model, response_type):
 	try:
 		client = OpenAI(api_key=openai_key)
@@ -57,12 +63,12 @@ def process_referral(output_text):
 	)
 	if run.status == 'completed': 
 		messages = client.beta.threads.messages.list(
-		thread_id=thread.id
+			thread_id=thread.id
 		)
 		print(messages)
 	else:
 		print(run.status)
-	return show_json(messages)
+	return pretty_print(messages)
 
 
 
