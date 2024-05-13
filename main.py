@@ -87,7 +87,7 @@ with gr.Blocks() as demo:
 
 	process_button = gr.Button(value="Process")
 
-	processed_text = gr.Text(label="Processed Text")
+	processed_text = gr.Markdown(label="Processed Text")
 
 	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type], outputs=output_text)
