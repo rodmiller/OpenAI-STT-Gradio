@@ -61,7 +61,7 @@ def process_referral(output_text):
 		print(messages)
 	else:
 		print(run.status)
-	return messages
+	return messages['content']['value']
 
 
 
