@@ -53,7 +53,7 @@ def process(output_text, process_type):
 	if process_type == "Referral":
 		assistant_id = "asst_ZHAae4G9DOxgJcbRd6rdAZrv"
 		#thread_id = "thread_aCl8EEYfilXy9XE4T240bpBO"
-	elif process_type == "Clinic Letter"
+	elif process_type == "Clinic Letter":
 		assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
 	else:
 		assistant_id = "asst_QtANS1beG7PvnztjlYjXj0NV"
