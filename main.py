@@ -21,10 +21,17 @@ def show_json(obj):
     return json.loads(obj.model_dump_json())
 
 def pretty_print(messages):
-	print("Messages")
+	#print("Messages")
 	for m in messages:
 		print(f"{m.role}: {m.content[0].text.value}")
 		print()
+
+def pretty_return(messages):
+	#print("Messages")
+	result = ""
+	for m in messages:
+		result = result + m.content[0].text.value
+	return result
 
 def transcript(audio, model, response_type):
 	try:
@@ -68,7 +75,7 @@ def process_referral(output_text):
 		print(messages)
 	else:
 		print(run.status)
-	return pretty_print(messages)
+	return pretty_return(messages)
 
 
 
