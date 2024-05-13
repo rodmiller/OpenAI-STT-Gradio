@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-openai_key = os.getenv("OPENAI_KEY")
+openai_key = os.getenv("OPENAI_API_KEY")
 
 if openai_key == "<YOUR_OPENAI_KEY>":
     openai_key = ""
@@ -47,7 +47,7 @@ with gr.Blocks() as demo:
                                     value="text")
 
     with gr.Row():
-        audio = gr.Audio(sources=["microphone"], type="filepath", streaming=True)
+        audio = gr.Audio(sources=["microphone"], type="filepath")
         file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
     output_text = gr.Text(label="Output Text")
