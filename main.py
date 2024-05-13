@@ -3,6 +3,9 @@ import sys
 import gradio as gr
 from openai import OpenAI
 from dotenv import load_dotenv
+import json
+
+
 
 load_dotenv()
 
@@ -14,6 +17,8 @@ if openai_key == "<YOUR_OPENAI_KEY>":
 if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
 
+def show_json(obj):
+    display(json.loads(obj.model_dump_json()))
 
 def transcript(audio, model, response_type):
 	try:
@@ -37,12 +42,8 @@ def process(output_text, process_type):
 
 
 def process_referral(output_text):
+	assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
 	client = OpenAI(api_key=openai_key)
-	assistant = client.beta.assistants.create(
-		name="Clinic_Letter_Helper",
-		instructions="You are a helpful medical secretary for a gastroenterology registrar. Your task is to correct any spelling discrepancies in the transcribed text or any words that have been mis-transcribed. You are writing a clinic letter which may have several subheadings. Every letter should include a 'clinical summary' which is a paragraph summarising the case at the top - please write this if it is not transcribed. Additionally, letters should include a diagnosis or list of diagnoses, a list of investigations and a plan. There may also be a list of other diagnoses and a list of medications. Please ensure that the words are spelled using British English. Please add punctuation as requested in the transcription and any formatting. There may be sections in the letters which also should be formatted correctly. You do not need to address or sign off the letter. Additionally, please could you generate a separate markdown-formatted task list with check boxes ([ ]) based upon the plan in the letter but only including tests that need to be requested (these are blood tests, radiology and procedures), please include the information needed for tasks that need to be requested - for example if there is a request for a test please write a clinical summary of the case which can be used to request the test.",
-		model="gpt-4o",
-	)
 	thread = client.beta.threads.create()
 	message = client.beta.threads.messages.create(
 		thread_id=thread.id,
@@ -51,7 +52,7 @@ def process_referral(output_text):
 	)
 	run = client.beta.threads.runs.create_and_poll(
 		thread_id=thread.id,
-		assistant_id=assistant.id,
+		assistant_id=assistant_id,
 		instructions=""
 	)
 	if run.status == 'completed': 
@@ -61,7 +62,7 @@ def process_referral(output_text):
 		print(messages)
 	else:
 		print(run.status)
-	return type(messages)['content']['value']
+	return show_json(messages)
 
 
 
