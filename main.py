@@ -18,7 +18,7 @@ if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
 
 def show_json(obj):
-    display(json.loads(obj.model_dump_json()))
+    return json.loads(obj.model_dump_json())
 
 def transcript(audio, model, response_type):
 	try:
