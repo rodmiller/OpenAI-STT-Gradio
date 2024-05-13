@@ -112,7 +112,7 @@ def upload_file(files):
 
 
 with gr.Blocks() as demo:
-	gr.Markdown("# <center> OpenAI Speech To Text API with Gradio </center>")
+	gr.Markdown("# <center> Physician's Assistant </center>")
 	with gr.Row(variant="panel"):
 		model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
 		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type",
