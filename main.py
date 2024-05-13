@@ -14,10 +14,10 @@ if openai_key == "<YOUR_OPENAI_KEY>":
 if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
 
-client = OpenAI(api_key=openai_key)
 
-def transcript(client, audio, model, response_type):
+def transcript(audio, model, response_type):
 	try:
+		client = OpenAI(api_key=openai_key)
 		print(audio)
 		audio_file = open(audio, "rb")
 		transcriptions = client.audio.transcriptions.create(
@@ -31,12 +31,13 @@ def transcript(client, audio, model, response_type):
 
 	return transcriptions
 
-def process(client, output_text, process_type):
+def process(output_text, process_type):
 	if process_type == "Referral":
-		return process_referral(client, output_text)
+		return process_referral(output_text)
 
 
-def process_referral(client, output_text):
+def process_referral(output_text):
+	client = OpenAI(api_key=openai_key)
 	assistant = client.beta.assistants.create(
 		name="Clinic_Letter_Helper",
 		instructions="You are a helpful medical secretary for a gastroenterology registrar. Your task is to correct any spelling discrepancies in the transcribed text or any words that have been mis-transcribed. You are writing a clinic letter which may have several subheadings. Every letter should include a 'clinical summary' which is a paragraph summarising the case at the top - please write this if it is not transcribed. Additionally, letters should include a diagnosis or list of diagnoses, a list of investigations and a plan. There may also be a list of other diagnoses and a list of medications. Please ensure that the words are spelled using British English. Please add punctuation as requested in the transcription and any formatting. There may be sections in the letters which also should be formatted correctly. You do not need to address or sign off the letter. Additionally, please could you generate a separate markdown-formatted task list with check boxes ([ ]) based upon the plan in the letter but only including tests that need to be requested (these are blood tests, radiology and procedures), please include the information needed for tasks that need to be requested - for example if there is a request for a test please write a clinical summary of the case which can be used to request the test.",
@@ -88,7 +89,7 @@ with gr.Blocks() as demo:
 
 	processed_text = gr.Text(label="Processed Text")
 
-	audio.stop_recording(fn=transcript, inputs=[client, audio, model, response_type], outputs=output_text, api_name=False)
+	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type], outputs=output_text)
 	process_button.click(fn=process, inputs=[output_text, process_type], outputs=processed_text)
 
