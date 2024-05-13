@@ -51,10 +51,37 @@ def transcript(audio, model, response_type):
 
 def process(output_text, process_type):
 	if process_type == "Referral":
-		return process_referral(output_text)
+		assistant_id = "asst_ZHAae4G9DOxgJcbRd6rdAZrv"
+		#thread_id = "thread_aCl8EEYfilXy9XE4T240bpBO"
+	elif process_type == "Clinic Letter"
+		assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
+	else:
+		assistant_id = "asst_QtANS1beG7PvnztjlYjXj0NV"
+		#Fall back to correspondence letter helper
+
+	client = OpenAI(api_key=openai_key)
+	thread = client.beta.threads.create()
+	message = client.beta.threads.messages.create(
+		thread_id=thread.id,
+		role="user",
+		content=output_text
+	)
+	run = client.beta.threads.runs.create_and_poll(
+		thread_id=thread.id,
+		assistant_id=assistant_id,
+		instructions=""
+	)
+	if run.status == 'completed': 
+		messages = client.beta.threads.messages.list(
+			thread_id=thread.id
+		)
+		return pretty_return(messages)
+	else:
+		return run.status
+	
 
 
-def process_referral(output_text):
+def process_clinic_letter(output_text):
 	assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
 	client = OpenAI(api_key=openai_key)
 	thread = client.beta.threads.create()
