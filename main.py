@@ -23,8 +23,8 @@ def show_json(obj):
 def pretty_print(messages):
 	print("Messages")
 	for m in messages:
-	print(f"{m.role}: {m.content[0].text.value}")
-	print()
+		print(f"{m.role}: {m.content[0].text.value}")
+		print()
 
 def transcript(audio, model, response_type):
 	try:
