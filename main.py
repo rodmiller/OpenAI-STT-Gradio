@@ -32,7 +32,7 @@ def transcript(audio, model, response_type):
     return transcriptions
 
 def process(output_text, process_type):
-
+    return output_text
 
 
 def upload_file(files):
