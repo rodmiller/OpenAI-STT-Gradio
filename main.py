@@ -11,7 +11,8 @@ load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
 
-frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
+frontmatter = ""
+#frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
