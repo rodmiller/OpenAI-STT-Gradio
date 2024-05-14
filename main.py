@@ -50,7 +50,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type):
 	except Exception as error:
 		print(str(error))
 		raise gr.Error("An error occurred while generating speech. Please check your API key and come back try again.")
-
+	print("BOX IS "+checkbox_value)
 	if checkbox_value:
 		return process(transcriptions, process_type)
 	else:
@@ -90,7 +90,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	with open("/home/robert/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
+	with open("/home/azureuser/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
 	return output_file
