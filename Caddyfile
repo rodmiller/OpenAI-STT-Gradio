@@ -1,0 +1,31 @@
+{
+  admin off
+}
+
+
+## It is important to read the following document before enabling this section:
+##     https://www.authelia.com/integration/proxies/caddy/#forwarded-header-trust#trusted-proxies
+(trusted_proxy_list) {
+       ## Uncomment & adjust the following line to configure specific ranges which should be considered as trustworthy.
+      trusted_proxies 192.168.0.0/16
+}
+
+
+# Authelia Portal.
+dictaphoneauth.flyingcrank.com {
+        reverse_proxy localhost:9091 {
+                ## This import needs to be included if you're relying on a trusted proxies configuration.
+                import trusted_proxy_list
+        }
+}
+
+dictaphone.flyingcrank.com {
+	forward_auth localhost:9091 {
+		uri /api/verify?rd=https://auth.flyingcrank.com/
+		copy_headers Remote-User Remote-Groups Remote-Name Remove-Email
+		import trusted_proxy_list
+	}
+	reverse_proxy localhost:7860 {
+		import trusted_proxy_list
+	}
+}

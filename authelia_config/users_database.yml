@@ -1,0 +1,8 @@
+users:
+  robert:
+    disabled: false
+    displayname: "robert"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$2ZOkfLd8U+saXB8hhUCGCw$+ONTPoT5vHRp3IaVH9IQ87dQU4Pd4b757u9MR44BWEI"
+    email: flyingcrank@gmail.com
+    groups:
+      - admins
