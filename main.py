@@ -4,7 +4,7 @@ import gradio as gr
 from openai import OpenAI
 from dotenv import load_dotenv
 import json
-import datetime
+from datetime import datetime
 
 
 load_dotenv()
