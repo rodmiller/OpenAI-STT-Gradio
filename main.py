@@ -35,7 +35,7 @@ def pretty_return(messages):
 		result = result + m.content[0].text.value
 	return result
 
-def transcript(audio, model, response_type):
+def transcript(audio, model, response_type, checkbox_value, process_type):
 	try:
 		client = OpenAI(api_key=openai_key)
 		print(audio)
@@ -49,7 +49,10 @@ def transcript(audio, model, response_type):
 		print(str(error))
 		raise gr.Error("An error occurred while generating speech. Please check your API key and come back try again.")
 
-	return transcriptions
+	if checkbox_value:
+		return process(transcriptions, process_type)
+	else:
+		return transcriptions
 
 def process(output_text, process_type):
 	if process_type == "Referral":
@@ -147,9 +150,9 @@ with gr.Blocks() as demo:
 
 	processed_text = gr.Markdown(label="Processed Text")
 
-	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type], outputs=output_text, api_name=False)
+	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type], outputs=output_text)
 	process_button.click(fn=process, inputs=[output_text, process_type], outputs=processed_text)
-	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+	#always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 
 demo.launch()
