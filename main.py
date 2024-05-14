@@ -119,11 +119,12 @@ def process_clinic_letter(output_text):
 	return pretty_return(messages)
 
 
-def checkbox_change(checkbox_value, button):
+def checkbox_change(checkbox_value):
+	print(checkbox_value)
 	if checkbox_value:
-		return button.interactive(False)
+		return gr.Button(interactive=False)
 	else:
-		return button.interactive(True)
+		return gr.Button(interactive=True)
 
 
 def upload_file(files):
@@ -141,18 +142,18 @@ with gr.Blocks() as demo:
 		audio = gr.Audio(sources=["microphone"], type="filepath")
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
-	output_text = gr.Text(label="Output Text")
+	output_text = gr.Text(label="Output Text", show_copy_button=True)
 
 	with gr.Row():
 		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter"], label="Process Type", value="Referral")
 		process_button = gr.Button(value="Process")
-		always_process_checkbox = gr.Checkbox(label="Process Automatically?")
+		always_process_checkbox = gr.Checkbox(label="Process Automatically?", size="lg")
 
-	processed_text = gr.Markdown(label="Processed Text")
+	processed_text = gr.Markdown(label="Processed Text", show_copy_button=True)
 
 	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type, always_process_checkbox, process_type], outputs=output_text)
 	process_button.click(fn=process, inputs=[output_text, process_type], outputs=processed_text)
-	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox, process_button], outputs=[process_button])
+	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 
 demo.launch()
