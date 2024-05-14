@@ -142,6 +142,8 @@ with gr.Blocks() as demo:
 		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
+	resubmit_button = gr.Button(value="Re-transcribe")
+
 	output_text = gr.Text(label="Output Text", show_copy_button=True)
 
 	with gr.Row():
@@ -153,7 +155,9 @@ with gr.Blocks() as demo:
 
 	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type, always_process_checkbox, process_type], outputs=output_text)
+	resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	process_button.click(fn=process, inputs=[output_text, process_type], outputs=processed_text)
 	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+
 
 demo.launch()
