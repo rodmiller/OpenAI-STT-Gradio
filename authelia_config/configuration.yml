@@ -212,11 +212,11 @@ access_control:
 ## The available providers are: `memory`, `redis`. Memory is the provider unless redis is defined.
 session:
   ## The name of the session cookie.
-  name: authelia_session
+  name: authelia_session_2
   ## The domain to protect.
   ## Note: the authenticator must also be in that domain.
   ## If empty, the cookie is restricted to the subdomain of the issuer.
-  domain: flyingcrank.com
+  domain: pa.flyingcrank.com
   ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
   ## Please read https://www.authelia.com/c/session#same_site
   same_site: lax

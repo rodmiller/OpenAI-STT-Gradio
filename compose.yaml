@@ -11,6 +11,22 @@ services:
     ports:
       - 7860:7860
 
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    command: redis-server --save "" --appendonly "no"
+    restart: always
+    networks:
+      - searxng
+    tmpfs:
+      - /var/lib/redis
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+
   caddy:
     container_name: caddy
     image: caddy:latest
