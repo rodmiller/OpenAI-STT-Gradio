@@ -118,9 +118,9 @@ def process_clinic_letter(output_text):
 
 def checkbox_change(checkbox_value):
 	if checkbox_value:
-		return gr.Button.update(interactive=False)
+		return gr.Button.interactive(False)
 	else:
-		return gr.Button.update(interactive=True)
+		return gr.Button.interactive(True)
 
 
 def upload_file(files):
