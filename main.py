@@ -50,7 +50,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type):
 	except Exception as error:
 		print(str(error))
 		raise gr.Error("An error occurred while generating speech. Please check your API key and come back try again.")
-	print("BOX IS "+checkbox_value)
+	print(checkbox_value)
 	if checkbox_value:
 		return process(transcriptions, process_type)
 	else:
