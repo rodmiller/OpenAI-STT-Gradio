@@ -147,7 +147,7 @@ with gr.Blocks() as demo:
 	with gr.Row():
 		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter"], label="Process Type", value="Referral")
 		process_button = gr.Button(value="Process")
-		always_process_checkbox = gr.Checkbox(label="Process Automatically?", size="lg")
+		always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
 	processed_text = gr.Markdown(label="Processed Text", show_copy_button=True)
 
