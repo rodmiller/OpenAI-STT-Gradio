@@ -149,7 +149,7 @@ with gr.Blocks() as demo:
 		process_button = gr.Button(value="Process")
 		always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
-	processed_text = gr.Markdown(label="Processed Text", show_copy_button=True)
+	processed_text = gr.Markdown(label="Processed Text")
 
 	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type, always_process_checkbox, process_type], outputs=output_text)
