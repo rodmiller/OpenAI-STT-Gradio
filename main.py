@@ -141,7 +141,7 @@ with gr.Blocks() as demo:
 									value="text")
 
 	with gr.Row():
-		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)z 
+		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 	resubmit_button = gr.Button(value="Re-transcribe")

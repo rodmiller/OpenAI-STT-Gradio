@@ -1,7 +1,16 @@
-name: myapp
-
+name: dictaphone
 
 services:
+  dictaphone:
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - /home/${USER}/vaults/obsidian/001\ Inbox:/vault
+      - ./:/app
+    ports:
+      - 7860:7860
+
   caddy:
     container_name: caddy
     image: caddy:latest
