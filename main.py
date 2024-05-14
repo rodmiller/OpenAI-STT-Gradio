@@ -38,8 +38,9 @@ def pretty_return(messages):
 
 def transcript(audio, model, response_type, checkbox_value, process_type):
 	try:
+		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
-		print(audio)
+		gr.Info("Transcribing...")
 		audio_file = open(audio, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
@@ -64,7 +65,7 @@ def process(output_text, process_type):
 	else:
 		assistant_id = "asst_QtANS1beG7PvnztjlYjXj0NV"
 		#Fall back to correspondence letter helper
-
+	gr.Info("Processing...")
 	client = OpenAI(api_key=openai_key)
 	thread = client.beta.threads.create()
 	message = client.beta.threads.messages.create(
