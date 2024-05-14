@@ -192,7 +192,7 @@ access_control:
 
   rules:
     ## bypass rule
-    - domain: 'dictaphoneauth.flyingcrank.com' #This should be your authentication URL
+    - domain: 'auth.dictaphone.flyingcrank.com' #This should be your authentication URL
       policy: bypass
     - domain: 'dictaphone.flyingcrank.com'
       resources:
