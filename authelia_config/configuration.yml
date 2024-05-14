@@ -216,7 +216,7 @@ session:
   ## The domain to protect.
   ## Note: the authenticator must also be in that domain.
   ## If empty, the cookie is restricted to the subdomain of the issuer.
-  domain: pa.flyingcrank.com
+  domain: flyingcrank.com
   ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
   ## Please read https://www.authelia.com/c/session#same_site
   same_site: lax
