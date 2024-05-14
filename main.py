@@ -90,7 +90,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	with open("/home/azureuser/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
+	with open("/vault/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
 	return output_file
@@ -141,7 +141,7 @@ with gr.Blocks() as demo:
 									value="text")
 
 	with gr.Row():
-		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)z 
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 	resubmit_button = gr.Button(value="Re-transcribe")
