@@ -146,7 +146,7 @@ with gr.Blocks() as demo:
 
 	resubmit_button = gr.Button(value="Re-transcribe")
 
-	output_text = gr.Markdown(label="Output Text", show_copy_button=True)
+	output_text = gr.Markdown(label="Output Text")
 
 	with gr.Row():
 		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter"], label="Process Type", value="Correspondence Letter")
