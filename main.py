@@ -139,7 +139,7 @@ with gr.Blocks() as demo:
 									value="text")
 
 	with gr.Row():
-		audio = gr.Audio(sources=["microphone"], type="filepath")
+		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 	output_text = gr.Text(label="Output Text", show_copy_button=True)
