@@ -12,16 +12,16 @@
 
 
 # Authelia Portal.
-auth.dictaphone.flyingcrank.com {
+auth.pa.flyingcrank.com {
         reverse_proxy localhost:9091 {
                 ## This import needs to be included if you're relying on a trusted proxies configuration.
                 import trusted_proxy_list
         }
 }
 
-dictaphone.flyingcrank.com {
+pa.flyingcrank.com {
 	forward_auth localhost:9091 {
-		uri /api/verify?rd=https://auth.dictaphone.flyingcrank.com/
+		uri /api/verify?rd=https://auth.pa.flyingcrank.com/
 		copy_headers Remote-User Remote-Groups Remote-Name Remove-Email
 		import trusted_proxy_list
 	}

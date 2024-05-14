@@ -18,7 +18,7 @@ jwt_secret: 78sfdgg3t3gwv7avjheh43
 ## in such a case.
 ##
 ## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
-default_redirection_url: https://dictaphone.flyingcrank.com
+default_redirection_url: https://pa.flyingcrank.com
 
 ##
 ## Server Configuration
@@ -192,15 +192,15 @@ access_control:
 
   rules:
     ## bypass rule
-    - domain: 'auth.dictaphone.flyingcrank.com' #This should be your authentication URL
+    - domain: 'auth.pa.flyingcrank.com' #This should be your authentication URL
       policy: bypass
-    - domain: 'dictaphone.flyingcrank.com'
+    - domain: 'pa.flyingcrank.com'
       resources:
         - '/.client/manifest.json$'
         - '/.client/[a-zA-Z0-9_-]+.png$'
         - '/service_worker.js$'
       policy: bypass
-    - domain: 'dictaphone.flyingcrank.com'
+    - domain: 'pa.flyingcrank.com'
       subject:
         - 'group:admins'
       policy: one_factor
@@ -216,13 +216,13 @@ session:
   ## The domain to protect.
   ## Note: the authenticator must also be in that domain.
   ## If empty, the cookie is restricted to the subdomain of the issuer.
-  domain: dictaphone.flyingcrank.com
+  domain: pa.flyingcrank.com
   ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
   ## Please read https://www.authelia.com/c/session#same_site
   same_site: lax
   ## The secret to encrypt the session data. This is only used with Redis / Redis Sentinel.
   ## Secret can also be set using a secret: https://www.authelia.com/c/secrets
-  secret: 3sdffgsdgs33452j2jhgjs9gdfg
+  secret: 3sdffgsdgs33452j2jhgjs9gdfi
   ## The value for expiration, inactivity, and remember_me_duration are in seconds or the duration notation format.
   ## See: https://www.authelia.com/c/common#duration-notation-format
   ## All three of these values affect the cookie/session validity period. Longer periods are considered less secure
