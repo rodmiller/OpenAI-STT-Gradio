@@ -120,7 +120,7 @@ def process_clinic_letter(output_text):
 
 
 def checkbox_change(checkbox_value):
-	print(checkbox_value)
+	#print(checkbox_value)
 	if checkbox_value:
 		return gr.Button(interactive=False)
 	else:
