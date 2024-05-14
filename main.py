@@ -116,8 +116,8 @@ def process_clinic_letter(output_text):
 	return pretty_return(messages)
 
 
-def checkbox_change(checkbox, button):
-	if checkbox.value:
+def checkbox_change(checkbox_value):
+	if checkbox_value:
 		return gr.Button.update(interactive=False)
 	else:
 		return gr.Button.update(interactive=True)
