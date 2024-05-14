@@ -75,6 +75,7 @@ def process(output_text, process_type):
 		messages = client.beta.threads.messages.list(
 			thread_id=thread.id
 		)
+		save_result(pretty_return(messages))
 		return pretty_return(messages)
 	else:
 		return run.status
