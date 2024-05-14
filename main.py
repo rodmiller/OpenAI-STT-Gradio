@@ -4,7 +4,7 @@ import gradio as gr
 from openai import OpenAI
 from dotenv import load_dotenv
 import json
-
+import datetime
 
 
 load_dotenv()
@@ -80,6 +80,13 @@ def process(output_text, process_type):
 		return run.status
 	
 
+def save_result(processed_result):
+	timestamp = datetime.now().isoformat()
+	with open("/home/robert/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
+		output_file.write(processed_result)
+	return output_file
+
+
 
 def process_clinic_letter(output_text):
 	assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
@@ -103,6 +110,7 @@ def process_clinic_letter(output_text):
 	else:
 		print(run.status)
 	return pretty_return(messages)
+
 
 
 
