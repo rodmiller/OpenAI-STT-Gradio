@@ -40,6 +40,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type):
 	try:
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
+		print(audio)
 		gr.Info("Transcribing...")
 		audio_file = open(audio, "rb")
 		transcriptions = client.audio.transcriptions.create(
