@@ -141,26 +141,39 @@ def upload_file(files):
 
 
 with gr.Blocks() as demo:
-	gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
-	with gr.Row(variant="panel"):
+	with gr.Tab("All In One"):
+		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
+		with gr.Row(variant="panel"):
+			model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
+			response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
+
+		with gr.Row():
+			audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
+
+		resubmit_button = gr.Button(value="Re-transcribe")
+
+		output_text = gr.Markdown(label="Output Text")
+
+		with gr.Row():
+			process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+			process_button = gr.Button(value="Process")
+			always_process_checkbox = gr.Checkbox(label="Process Automatically?")
+
+		processed_text = gr.Markdown(label="Processed Text")
+	with gr.Tab("Processing"):
+		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
 		model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
-		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type",
-									value="text")
+		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
-	with gr.Row():
-		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
-		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
+		output_text = gr.Text(label="Output Text")
 
-	resubmit_button = gr.Button(value="Re-transcribe")
+		with gr.Row():
+			process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+			process_button = gr.Button(value="Process")
+			always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
-	output_text = gr.Markdown(label="Output Text")
-
-	with gr.Row():
-		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
-		process_button = gr.Button(value="Process")
-		always_process_checkbox = gr.Checkbox(label="Process Automatically?")
-
-	processed_text = gr.Markdown(label="Processed Text")
+		processed_text = gr.Markdown(label="Processed Text")
 
 	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 	file.upload(fn=transcript, inputs=[file, model, response_type, always_process_checkbox, process_type], outputs=output_text)
