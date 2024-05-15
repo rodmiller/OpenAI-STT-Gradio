@@ -62,6 +62,8 @@ def process(output_text, process_type):
 		#thread_id = "thread_aCl8EEYfilXy9XE4T240bpBO"
 	elif process_type == "Clinic Letter":
 		assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
+	elif process_type == "Results Letter":
+		assistant_id = "asst_VC18ebPqMbuNKmi5MshnWNcM"
 	else:
 		assistant_id = "asst_QtANS1beG7PvnztjlYjXj0NV"
 		#Fall back to correspondence letter helper
@@ -149,7 +151,7 @@ with gr.Blocks() as demo:
 	output_text = gr.Markdown(label="Output Text")
 
 	with gr.Row():
-		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter"], label="Process Type", value="Correspondence Letter")
+		process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
 		process_button = gr.Button(value="Process")
 		always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
