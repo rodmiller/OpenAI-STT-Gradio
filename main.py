@@ -162,4 +162,4 @@ with gr.Blocks() as demo:
 	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 
 
-demo.launch()
+demo.launch(server_port=7860)
