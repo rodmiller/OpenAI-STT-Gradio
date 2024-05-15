@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - /home/${USER}/vaults/obsidian/001\ Inbox:/vault
+      - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
       - ./:/app
     ports:
       - 7860:7860
