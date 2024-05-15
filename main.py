@@ -10,6 +10,10 @@ from datetime import datetime
 load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
+user = os.getenv("USER")
+device = os.getenv("DEVICE")
+print(user)
+print(device)
 
 #frontmatter = ""
 frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
@@ -93,7 +97,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	with open("/home/azureuser/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
+	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
 	return output_file
@@ -137,7 +141,7 @@ def upload_file(files):
 
 
 with gr.Blocks() as demo:
-	gr.Markdown("# <center> Physician's Assistant </center>")
+	gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
 	with gr.Row(variant="panel"):
 		model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
 		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type",
