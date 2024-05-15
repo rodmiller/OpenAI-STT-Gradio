@@ -166,7 +166,7 @@ with gr.Blocks() as demo:
 		model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
 		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
-		output_text = gr.Text(label="Output Text")
+		output_text = gr.Text(label="Transcription to Process")
 
 		with gr.Row():
 			process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
