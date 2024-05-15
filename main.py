@@ -5,6 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 from datetime import datetime
+from tempfile import TemporaryFile
 
 
 load_dotenv()
@@ -40,7 +41,22 @@ def pretty_return(messages):
 		result = result + m.content[0].text.value
 	return result
 
+def streaming_audio(stream, new_chunk):
+	sr, y = new_chunk
+    y = y.astype(np.float32)
+    y /= np.max(np.abs(y))
+
+    if stream is not None:
+    	stream = np.concatenate([stream, y])
+	else:
+		stream = y
+	return transcript(stream, ) 
+
 def transcript(audio, model, response_type, checkbox_value, process_type):
+	if audio is not None:
+		if not audio_file:
+			# First chunk
+			audio_file = TemporaryFile(mode='w+b')
 	try:
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
@@ -148,7 +164,7 @@ with gr.Blocks() as demo:
 									value="text")
 
 	with gr.Row():
-		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+		audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True)
 		file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 	resubmit_button = gr.Button(value="Re-transcribe")
