@@ -92,7 +92,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	with open("/vault/"+timestamp+".md", "w") as output_file:
+	with open("/home/azureuser/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
 	return output_file
