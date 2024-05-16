@@ -27,6 +27,7 @@ default_process_type = "Correspondence Letter"
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
+title = "# <center> Physician's Assistant - "+device+"</center>"
 
 
 if openai_key == "<YOUR_OPENAI_KEY>":
@@ -34,6 +35,9 @@ if openai_key == "<YOUR_OPENAI_KEY>":
 
 if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
+
+def get_user(request: gr.Request):
+	return request.headers
 
 def show_json(obj):
     return json.loads(obj.model_dump_json())
@@ -53,6 +57,7 @@ def pretty_return(messages):
 
 def transcript(audio, model, response_type, checkbox_value, process_type):
 	try:
+		print(get_user())
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
@@ -151,9 +156,7 @@ def recordingStopped(audio):
 	return gr.Button(interactive=True)
 	
 with gr.Blocks() as demo:
-	request = gr.Request()
-	print(request)
-	title = "# <center> Physician's Assistant - "+device+" "+request.headers["Remote-User"]+"</center>"
+	
 	with gr.Tab("All In One"):
 		gr.Markdown(title)
 		with gr.Row(variant="panel"):
