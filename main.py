@@ -157,7 +157,7 @@ with gr.Blocks() as demo:
 
 		aio_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
 		aio_process_button = gr.Button(value="Reprocess")
-		#aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
+		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, hidden=True)
 
 		aio_processed_text = gr.Markdown(label="Processed Text")
 
