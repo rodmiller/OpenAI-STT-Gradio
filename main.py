@@ -140,6 +140,7 @@ def upload_file(files):
 	print(files)
 
 def recordingStopped(audio):
+	print(audio)
 	return gr.Info("Recording Stopped now")
 
 with gr.Blocks() as demo:
