@@ -36,7 +36,7 @@ if openai_key == "<YOUR_OPENAI_KEY>":
 if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
 
-def get_user(request: gr.Request):
+def get_user(request):
 	return request.headers
 
 def show_json(obj):
@@ -57,7 +57,7 @@ def pretty_return(messages):
 
 def transcript(audio, model, response_type, checkbox_value, process_type):
 	try:
-		print(get_user())
+		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
