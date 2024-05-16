@@ -15,8 +15,17 @@ device = os.getenv("DEVICE")
 print(user)
 print(device)
 
-#frontmatter = ""
-frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
+process_types = {
+	"Referral": "asst_ZHAae4G9DOxgJcbRd6rdAZrv",
+	"Clinic Letter": "asst_m7ObZXl7fZPkz2iFnU2GPwQ5",
+	"Results Letter": "asst_VC18ebPqMbuNKmi5MshnWNcM",
+	"Correspondence Letter": "asst_QtANS1beG7PvnztjlYjXj0NV",
+	"Endoscopy Report": "asst_pVFGXvuDIVZzUjKT2C88KL4R"
+}
+default_process_type = "Correspondence Letter"
+
+frontmatter = ""
+#frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
@@ -62,16 +71,10 @@ def transcript(audio, model, response_type, checkbox_value, process_type):
 		return transcriptions
 
 def process(output_text, process_type):
-	if process_type == "Referral":
-		assistant_id = "asst_ZHAae4G9DOxgJcbRd6rdAZrv"
-		#thread_id = "thread_aCl8EEYfilXy9XE4T240bpBO"
-	elif process_type == "Clinic Letter":
-		assistant_id = "asst_m7ObZXl7fZPkz2iFnU2GPwQ5"
-	elif process_type == "Results Letter":
-		assistant_id = "asst_VC18ebPqMbuNKmi5MshnWNcM"
-	else:
-		assistant_id = "asst_QtANS1beG7PvnztjlYjXj0NV"
-		#Fall back to correspondence letter helper
+	if not process_type:
+		process_type = "Correspondence Letter"
+	assistant_id = process_types[process_type]
+	
 	gr.Info("Processing...")
 	client = OpenAI(api_key=openai_key)
 	thread = client.beta.threads.create()
@@ -160,7 +163,7 @@ with gr.Blocks() as demo:
 
 		aio_output_text = gr.Markdown(label="Output Text")
 
-		aio_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
 		aio_process_button = gr.Button(value="Reprocess")
 		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, visible=False)
 
@@ -182,7 +185,7 @@ with gr.Blocks() as demo:
 		p_output_text = gr.Text(label="Transcription to Process")
 
 		with gr.Row():
-			p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+			p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
 			p_process_button = gr.Button(value="Process")
 			#p_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
@@ -207,7 +210,7 @@ with gr.Blocks() as demo:
 
 		t_submit_button = gr.Button(value="Retranscribe")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
-		t_process_type = p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter", visible=False)
+		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
 		
