@@ -28,7 +28,7 @@ frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
 request = gr.Request()
-
+print(request)
 title = "# <center> Physician's Assistant - "+device+" "+request.headers["Remote-User"]+"</center>"
 
 if openai_key == "<YOUR_OPENAI_KEY>":
