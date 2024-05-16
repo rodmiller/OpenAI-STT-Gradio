@@ -157,7 +157,7 @@ with gr.Blocks() as demo:
 
 		aio_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
 		aio_process_button = gr.Button(value="Reprocess")
-		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, hidden=True)
+		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, visible=False)
 
 		aio_processed_text = gr.Markdown(label="Processed Text")
 
@@ -199,8 +199,8 @@ with gr.Blocks() as demo:
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
-		t_always_process_checkbox = gr.Checkbox(hidden=True, value=False)
-		t_process_type = p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter", hidden=True)
+		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
+		t_process_type = p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter", visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
 		
