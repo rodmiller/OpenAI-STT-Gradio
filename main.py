@@ -29,7 +29,7 @@ frontmatter = ""
 
 request = gr.Request()
 
-title = "# <center> Physician's Assistant - "+device+" "+requess.headers["Remote-User"]+"</center>"
+title = "# <center> Physician's Assistant - "+device+" "+request.headers["Remote-User"]+"</center>"
 
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
