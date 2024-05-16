@@ -144,42 +144,74 @@ with gr.Blocks() as demo:
 	with gr.Tab("All In One"):
 		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
 		with gr.Row(variant="panel"):
-			model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
-			response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
+			aio_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
+			aio_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
-			file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
+			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			aio_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
-		resubmit_button = gr.Button(value="Re-transcribe")
+		aio_submit_button = gr.Button(value="Transcribe and Process")
 
-		output_text = gr.Markdown(label="Output Text")
+		aio_output_text = gr.Markdown(label="Output Text")
 
-		with gr.Row():
-			process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
-			process_button = gr.Button(value="Process")
-			always_process_checkbox = gr.Checkbox(label="Process Automatically?")
+		aio_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+		aio_process_button = gr.Button(value="Reprocess")
+		#aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
-		processed_text = gr.Markdown(label="Processed Text")
+		aio_processed_text = gr.Markdown(label="Processed Text")
+
+		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text, api_name=False)
+		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text)
+		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
+		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
+		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+	
 	with gr.Tab("Processing"):
 		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
-		model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
-		response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
+		p_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
+		p_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
-		output_text = gr.Text(label="Transcription to Process")
+		p_output_text = gr.Text(label="Transcription to Process")
 
 		with gr.Row():
-			process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
-			process_button = gr.Button(value="Process")
-			always_process_checkbox = gr.Checkbox(label="Process Automatically?")
+			p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter")
+			p_process_button = gr.Button(value="Process")
+			#p_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
-		processed_text = gr.Markdown(label="Processed Text")
+		p_processed_text = gr.Markdown(label="Processed Text")
+		
+		#p_submit_button.click(fn=transcript, inputs=[p_audio, p_model, p_response_type, p_always_process_checkbox, p_process_type], outputs=p_output_text, api_name=False)
+		#p_file.upload(fn=transcript, inputs=[p_file, aio_model, p_response_type, p_always_process_checkbox, p_process_type], outputs=p_output_text)
+		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
+		p_process_button.click(fn=process, inputs=[p_output_text, p_process_type], outputs=p_processed_text)
+		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+	
+	with gr.Tab("Transcribing"):
+		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
+		
+		with gr.Row(variant="panel"):
+			t_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
+			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
-	audio.stop_recording(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
-	file.upload(fn=transcript, inputs=[file, model, response_type, always_process_checkbox, process_type], outputs=output_text)
-	resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
-	process_button.click(fn=process, inputs=[output_text, process_type], outputs=processed_text)
-	always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+		with gr.Row():
+			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
+
+		t_submit_button = gr.Button(value="Retranscribe")
+		t_always_process_checkbox = gr.Checkbox(hidden=True, value=False)
+		t_process_type = p_process_type = gr.Dropdown(choices=["Referral", "Clinic Letter", "Correspondence Letter", "Results Letter"], label="Process Type", value="Results Letter", hidden=True)
+
+		t_output_text = gr.Markdown(label="Output Text")
+		
+		t_audio.stopRecording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
+		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
+		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
+		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
+		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+		
+
+	
 
 
 demo.launch(server_port=7860)
