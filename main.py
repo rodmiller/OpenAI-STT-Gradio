@@ -27,9 +27,7 @@ default_process_type = "Correspondence Letter"
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
-request = gr.Request()
-print(request)
-title = "# <center> Physician's Assistant - "+device+" "+request.headers["Remote-User"]+"</center>"
+
 
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
@@ -153,6 +151,9 @@ def recordingStopped(audio):
 	return gr.Button(interactive=True)
 	
 with gr.Blocks() as demo:
+	request = gr.Request()
+	print(request)
+	title = "# <center> Physician's Assistant - "+device+" "+request.headers["Remote-User"]+"</center>"
 	with gr.Tab("All In One"):
 		gr.Markdown(title)
 		with gr.Row(variant="panel"):
