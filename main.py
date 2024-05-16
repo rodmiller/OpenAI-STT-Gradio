@@ -107,7 +107,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result, extra_tag):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag+"\n---\n"
+	frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag.replace(" ", "\n - ")+"\n---\n"
 	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
