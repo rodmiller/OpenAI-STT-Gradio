@@ -37,7 +37,7 @@ if openai_key == "":
 	sys.exit("Please Provide Your OpenAI API Key")
 
 def get_user(request):
-	return request.request.headers["Remote-User"]
+	return dir(request)
 
 def show_json(obj):
     return json.loads(obj.model_dump_json())
