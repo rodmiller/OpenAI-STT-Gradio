@@ -99,15 +99,15 @@ def process(output_text, process_type):
 		messages = client.beta.threads.messages.list(
 			thread_id=thread.id
 		)
-		save_result(pretty_return(messages))
+		save_result(pretty_return(messages), process_type)
 		return pretty_return(messages)
 	else:
 		return run.status
 	
 
-def save_result(processed_result):
+def save_result(processed_result, extra_tag):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
+	frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag+"\n---\n"
 	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
