@@ -27,6 +27,10 @@ default_process_type = "Correspondence Letter"
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
+request = gr.Request()
+
+title = "# <center> Physician's Assistant - "+device+" "+requess.headers["Remote-User"]+"</center>"
+
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
 
@@ -150,7 +154,7 @@ def recordingStopped(audio):
 	
 with gr.Blocks() as demo:
 	with gr.Tab("All In One"):
-		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
+		gr.Markdown(title)
 		with gr.Row(variant="panel"):
 			aio_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
 			aio_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
@@ -178,7 +182,7 @@ with gr.Blocks() as demo:
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 	
 	with gr.Tab("Processing"):
-		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
+		gr.Markdown(title)
 		p_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
 		p_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
@@ -198,7 +202,7 @@ with gr.Blocks() as demo:
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 	
 	with gr.Tab("Transcribing"):
-		gr.Markdown("# <center> Physician's Assistant - "+device+"</center>")
+		gr.Markdown(title)
 		
 		with gr.Row(variant="panel"):
 			t_model = gr.Dropdown(choices=["whisper-1"], label="Model", value="whisper-1")
