@@ -139,6 +139,8 @@ def checkbox_change(checkbox_value):
 def upload_file(files):
 	print(files)
 
+def recordingStopped(audio):
+	return gr.Info("Recording Stopped now")
 
 with gr.Blocks() as demo:
 	with gr.Tab("All In One"):
@@ -162,6 +164,7 @@ with gr.Blocks() as demo:
 		aio_processed_text = gr.Markdown(label="Processed Text")
 
 		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text, api_name=False)
+		aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=False)
 		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text)
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
