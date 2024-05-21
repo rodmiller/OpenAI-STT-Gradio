@@ -67,8 +67,8 @@ def transcript(audio, model, response_type, checkbox_value, process_type, state)
 	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
 
 	#Last run of streaming audio
-	#state = streamingAudio(state, audio)
-	sleep(2)
+	sleep(5)
+	state = streamingAudio(state, audio)
 	#Export the audioSegment to a file
 	state.export("to_transcribe.wav", format="wav")
 	
@@ -208,6 +208,7 @@ def capture_audio(stream, new_chunk):
 
 def streamingAudio(stream, new_chunk):
 	print('New streaming chunk')
+	print(datetime.now().isoformat())
 	print(new_chunk)
 	#print(dir(new_chunk))
 	#print(type(new_chunk))
