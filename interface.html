@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictaphone</title>
+    <style>
+        #controls { margin-bottom: 20px; }
+        button { margin: 5px; }
+        canvas { border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="record">Record (R)</button>
+        <button id="stop">Stop (S)</button>
+        <button id="play">Play (P)</button>
+        <button id="pause">Pause (Space)</button>
+        <button id="rewind">Rewind (←)</button>
+        <button id="fastForward">Fast Forward (→)</button>
+    </div>
+    <div>
+        <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+    </div>
+    <canvas id="waveform" width="600" height="100"></canvas>
+
+    <script src="dictaphone.js"></script>
+</body>
+</html>
