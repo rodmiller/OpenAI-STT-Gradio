@@ -173,7 +173,7 @@ def streamingAudio(stream, new_chunk):
 		stream = stream + new_chunk_segment
 	else:
 		print("First chunk")
-		stream = AudioSegment.from_wav(y)
+		stream = AudioSegment.from_wav(new_chunk_segment)
 	return stream
 
 	
