@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import json
 from datetime import datetime
 import numpy as np
+from pydub import AudioSegment
 
 load_dotenv()
 
@@ -162,14 +163,17 @@ def streamingAudio(stream, new_chunk):
 	print('New streaming chunk')
 	print(new_chunk)
 	print(dir(new_chunk))
-	sr, y = new_chunk
-	y = y.astype(np.float32)
-	y /= np.max(np.abs(y))
+	new_chunk_segment = AudioSegment.from_wav(new_chunk)
+
+	#sr, y = new_chunk
+	#y = y.astype(np.float32)
+	#y /= np.max(np.abs(y))
 
 	if stream is not None:
-		stream = np.concatenate([stream, y])
+		stream = stream + new_chunk_segment
 	else:
-		stream = y
+		print("First chunk")
+		stream = AudioSegment.from_wav(y)
 	return stream
 
 	
