@@ -200,8 +200,8 @@ def capture_audio(stream, new_chunk):
 def streamingAudio(stream, new_chunk):
 	print('New streaming chunk')
 	print(new_chunk)
-	print(dir(new_chunk))
-	print(type(new_chunk))
+	#print(dir(new_chunk))
+	#print(type(new_chunk))
 	new_chunk_segment = AudioSegment.from_wav(new_chunk)
 
 	#sr, y = new_chunk
@@ -214,7 +214,7 @@ def streamingAudio(stream, new_chunk):
 		print("Added chunk to stream")
 	else:
 		print("First chunk")
-		stream = AudioSegment.from_wav(new_chunk_segment)
+		stream = new_chunk_segment
 	print("Returning stream")
 	return stream
 
