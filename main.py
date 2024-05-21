@@ -64,13 +64,19 @@ def transcript(audio, model, response_type, checkbox_value, process_type, state)
 	#global audio_data
 	#global streaming_rate
 	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
+
+	#Last run of streaming audio
+	state = streamingAudio(state, audio)
+	#Export the audioSegment to a file
+	state.export("to_transcribe.wav", format="wav")
+
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open(state, "rb")
+		audio_file = open("to_transcribe.wav", "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
