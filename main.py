@@ -60,7 +60,7 @@ def pretty_return(messages):
 		result = result + m.content[0].text.value + "\n"
 	return result
 
-def transcript(audio, model, response_type, checkbox_value, process_type):
+def transcript(audio, model, response_type, checkbox_value, process_type, state):
 	#global audio_data
 	#global streaming_rate
 	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
@@ -70,7 +70,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type):
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open(audio, "rb")
+		audio_file = open(state, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -288,7 +288,7 @@ with gr.Blocks() as demo:
 		t_state = gr.State()
 
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state])
-		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
+		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
 		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
