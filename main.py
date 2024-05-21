@@ -239,8 +239,9 @@ with gr.Blocks() as demo:
 		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
+		t_state = gr.State()
 
-		t_audio.stream(fn=streamingAudio, inputs=["state", t_audio], outputs="state")
+		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=t_state)
 		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
