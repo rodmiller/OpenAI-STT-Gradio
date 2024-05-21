@@ -68,9 +68,11 @@ def transcript(audio, model, response_type, checkbox_value, process_type, state)
 
 	#Last run of streaming audio
 	#state = streamingAudio(state, audio)
-	#Export the audioSegment to a file
-	#state.export("to_transcribe.wav", format="wav")
 	sleep(2)
+	#Export the audioSegment to a file
+	state.export("to_transcribe.wav", format="wav")
+	
+
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
