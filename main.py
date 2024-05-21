@@ -222,7 +222,7 @@ with gr.Blocks() as demo:
 		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text, api_name=False)
 		aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
-		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text)
+		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text)
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
@@ -267,8 +267,8 @@ with gr.Blocks() as demo:
 
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state])
 		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
-		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
-		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
+		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text)
+		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 		
