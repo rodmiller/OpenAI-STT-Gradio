@@ -172,44 +172,10 @@ def recordingStopped(audio):
 	#gr.Info("Recording Stopped now")
 	return gr.Button(interactive=True)
 
-audio_data = None
-streaming_rate = None
-
-def capture_audio(stream, new_chunk):
-    """
-    Function to capture streaming audio and accumulate it in a global variable.
-
-    Args:
-        stream (numpy.ndarray): The accumulated audio data up to this point.
-        new_chunk (tuple): A tuple containing the sampling rate and the new audio data chunk.
-
-    Returns:
-        numpy.ndarray: The updated stream with the new chunk appended.
-    """
-    global audio_data
-    global streaming_rate
-
-    # Extract sampling rate and audio chunk, normalize the audio
-    sr, y = new_chunk
-    streaming_rate = sr
-    y = y.astype(np.float32)
-    y /= np.max(np.abs(y))
-
-    # Concatenate new audio chunk to the existing stream or start a new one
-    if stream is not None:
-        stream = np.concatenate([stream, y])
-    else:
-        stream = y
-
-    # Update the global variable with the new audio data
-    audio_data = stream
-    return stream
-
-
 def streamingAudio(stream, new_chunk):
-	print('New streaming chunk')
-	print(datetime.now().isoformat())
-	print(new_chunk)
+	#print('New streaming chunk')
+	#print(datetime.now().isoformat())
+	#print(new_chunk)
 	#print(dir(new_chunk))
 	#print(type(new_chunk))
 	new_chunk_segment = AudioSegment.from_wav(new_chunk)
