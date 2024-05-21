@@ -273,7 +273,7 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True, type="numpy")
+			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="numpy")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
