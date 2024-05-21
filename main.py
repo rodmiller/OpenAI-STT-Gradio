@@ -24,6 +24,8 @@ process_types = {
 	"Endoscopy Report": "asst_pVFGXvuDIVZzUjKT2C88KL4R"
 }
 default_process_type = "Correspondence Letter"
+last_process_type = default_process_type
+
 
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
@@ -172,7 +174,7 @@ with gr.Blocks() as demo:
 
 		aio_output_text = gr.Markdown(label="Output Text")
 
-		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
+		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type)
 		aio_process_button = gr.Button(value="Reprocess")
 		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, visible=False)
 
@@ -194,7 +196,7 @@ with gr.Blocks() as demo:
 		p_output_text = gr.Text(label="Transcription to Process")
 
 		with gr.Row():
-			p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
+			p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type)
 			p_process_button = gr.Button(value="Process")
 			#p_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
@@ -219,10 +221,11 @@ with gr.Blocks() as demo:
 
 		t_submit_button = gr.Button(value="Retranscribe")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
-		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type, visible=False)
+		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
-		
+		t_state
+
 		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
