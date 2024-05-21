@@ -5,7 +5,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 from datetime import datetime
-
+import numpy as np
+from pydub import AudioSegment
+import wavio
+from time import sleep
 
 load_dotenv()
 
@@ -24,6 +27,8 @@ process_types = {
 	"Endoscopy Report": "asst_pVFGXvuDIVZzUjKT2C88KL4R"
 }
 default_process_type = "Correspondence Letter"
+last_process_type = default_process_type
+
 
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
@@ -41,7 +46,7 @@ def get_user(request):
 	return str(request)
 
 def show_json(obj):
-    return json.loads(obj.model_dump_json())
+	return json.loads(obj.model_dump_json())
 
 def pretty_print(messages):
 	#print("Messages")
@@ -56,14 +61,25 @@ def pretty_return(messages):
 		result = result + m.content[0].text.value + "\n"
 	return result
 
-def transcript(audio, model, response_type, checkbox_value, process_type):
+def transcript(audio, model, response_type, checkbox_value, process_type, state):
+	#global audio_data
+	#global streaming_rate
+	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
+
+	#Last run of streaming audio
+	sleep(5)
+	state = streamingAudio(state, audio)
+	#Export the audioSegment to a file
+	state.export("to_transcribe.wav", format="wav")
+	
+
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open(audio, "rb")
+		audio_file = open("to_transcribe.wav", "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -155,6 +171,29 @@ def recordingStopped(audio):
 	#print(audio)
 	#gr.Info("Recording Stopped now")
 	return gr.Button(interactive=True)
+
+def streamingAudio(stream, new_chunk):
+	#print('New streaming chunk')
+	#print(datetime.now().isoformat())
+	#print(new_chunk)
+	#print(dir(new_chunk))
+	#print(type(new_chunk))
+	new_chunk_segment = AudioSegment.from_wav(new_chunk)
+
+	#sr, y = new_chunk
+	#y = y.astype(np.float32)
+	#y /= np.max(np.abs(y))
+
+	if stream is not None:
+		#print("Adding chunk to stream")
+		stream = stream + new_chunk_segment
+		#print("Added chunk to stream")
+	else:
+		#print("First chunk")
+		stream = new_chunk_segment
+	#print("Returning stream")
+	return stream
+
 	
 with gr.Blocks() as demo:
 	
@@ -165,23 +204,25 @@ with gr.Blocks() as demo:
 			aio_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True)
 			aio_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		aio_submit_button = gr.Button(value="Re-Transcribe and Process", interactive=False)
 
 		aio_output_text = gr.Markdown(label="Output Text")
 
-		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
+		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type)
 		aio_process_button = gr.Button(value="Reprocess")
 		aio_always_process_checkbox = gr.Checkbox(label="Process Automatically?", value=True, visible=False)
 
 		aio_processed_text = gr.Markdown(label="Processed Text")
+		aio_state = gr.State()
 
-		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text, api_name=False)
-		aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text, api_name=False)
+		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
+		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
+		aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
-		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type], outputs=aio_output_text)
+		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text)
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
@@ -194,7 +235,7 @@ with gr.Blocks() as demo:
 		p_output_text = gr.Text(label="Transcription to Process")
 
 		with gr.Row():
-			p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type)
+			p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type)
 			p_process_button = gr.Button(value="Process")
 			#p_always_process_checkbox = gr.Checkbox(label="Process Automatically?")
 
@@ -214,18 +255,20 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
-		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=default_process_type, visible=False)
+		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
-		
-		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
-		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
-		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
+		t_state = gr.State()
+
+		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state])
+		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
+		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text)
+		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
 		
