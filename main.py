@@ -185,13 +185,13 @@ def streamingAudio(stream, new_chunk):
 	#y /= np.max(np.abs(y))
 
 	if stream is not None:
-		print("Adding chunk to stream")
+		#print("Adding chunk to stream")
 		stream = stream + new_chunk_segment
-		print("Added chunk to stream")
+		#print("Added chunk to stream")
 	else:
-		print("First chunk")
+		#print("First chunk")
 		stream = new_chunk_segment
-	print("Returning stream")
+	#print("Returning stream")
 	return stream
 
 	
