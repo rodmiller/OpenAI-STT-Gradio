@@ -61,16 +61,16 @@ def pretty_return(messages):
 	return result
 
 def transcript(audio, model, response_type, checkbox_value, process_type):
-	global audio_data
-	global streaming_rate
-	audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
+	#global audio_data
+	#global streaming_rate
+	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open("to_transcribe.wav", "rb")
+		audio_file = open(audio, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -273,7 +273,7 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="numpy")
+			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
