@@ -66,10 +66,10 @@ def transcript(audio, model, response_type, checkbox_value, process_type, state)
 	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
 
 	#Last run of streaming audio
-	state = streamingAudio(state, audio)
+	#state = streamingAudio(state, audio)
 	#Export the audioSegment to a file
-	state.export("to_transcribe.wav", format="wav")
-
+	#state.export("to_transcribe.wav", format="wav")
+	sleep(2)
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
