@@ -5,7 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 from datetime import datetime
-
+import numpy as np
 
 load_dotenv()
 
@@ -157,6 +157,21 @@ def recordingStopped(audio):
 	#print(audio)
 	#gr.Info("Recording Stopped now")
 	return gr.Button(interactive=True)
+
+def streamingAudio(stream, new_chunk):
+	print('New streaming chunk')
+	print(new_chunk)
+	print(dir(new_chunk))
+	sr, y = new_chunk
+    y = y.astype(np.float32)
+    y /= np.max(np.abs(y))
+
+    if stream is not None:
+        stream = np.concatenate([stream, y])
+    else:
+        stream = y
+	return stream
+
 	
 with gr.Blocks() as demo:
 	
@@ -216,7 +231,7 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True)
+			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True)
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
@@ -224,8 +239,8 @@ with gr.Blocks() as demo:
 		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
-		t_state
 
+		t_audio.stream(fn=streamingAudio, inputs=["state", t_audio], outputs="state")
 		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
