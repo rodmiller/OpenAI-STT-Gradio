@@ -43,7 +43,7 @@ def get_user(request):
 	return str(request)
 
 def show_json(obj):
-    return json.loads(obj.model_dump_json())
+	return json.loads(obj.model_dump_json())
 
 def pretty_print(messages):
 	#print("Messages")
@@ -163,13 +163,13 @@ def streamingAudio(stream, new_chunk):
 	print(new_chunk)
 	print(dir(new_chunk))
 	sr, y = new_chunk
-    y = y.astype(np.float32)
-    y /= np.max(np.abs(y))
+	y = y.astype(np.float32)
+	y /= np.max(np.abs(y))
 
-    if stream is not None:
-        stream = np.concatenate([stream, y])
-    else:
-        stream = y
+	if stream is not None:
+		stream = np.concatenate([stream, y])
+	else:
+		stream = y
 	return stream
 
 	
