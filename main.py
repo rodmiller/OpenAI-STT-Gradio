@@ -11,6 +11,7 @@ load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
 user = os.getenv("USER")
+device = ''
 device = os.getenv("DEVICE")
 print(user)
 print(device)

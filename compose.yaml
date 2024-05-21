@@ -1,18 +1,18 @@
 name: dictaphone
 
 services:
-#  dictaphone:
-#    build:
-#      dockerfile: Dockerfile
-#    restart: always
-#    volumes:
-#      - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
-#      - ./:/app
-#    ports:
-#      - 7860:7860
+  # dictaphone:
+  #   build:
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   volumes:
+  #     - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
+  #     - ./:/app
+  #   ports:
+  #     - 7860:7860
 
   redis:
-    container_name: redis
+    container_name: dict-redis
     image: "redis:alpine"
     command: redis-server --save "" --appendonly "no"
     restart: always
@@ -28,7 +28,7 @@ services:
       - DAC_OVERRIDE
 
   caddy:
-    container_name: caddy
+    container_name: dict-caddy
     image: caddy:latest
     network_mode: host
     restart: always
@@ -44,7 +44,7 @@ services:
 
   authelia:
     image: authelia/authelia
-    container_name: authelia
+    container_name: dict-authelia
     volumes:
       - ./authelia_config:/config
     ports:
