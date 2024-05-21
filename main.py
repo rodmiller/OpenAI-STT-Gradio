@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 import numpy as np
 from pydub import AudioSegment
+import wavio
 
 load_dotenv()
 
@@ -60,13 +61,16 @@ def pretty_return(messages):
 	return result
 
 def transcript(audio, model, response_type, checkbox_value, process_type):
+	global audio_data
+	global streaming_rate
+	audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
 	try:
 		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open(audio, "rb")
+		audio_file = open("to_transcribe.wav", "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -159,6 +163,40 @@ def recordingStopped(audio):
 	#gr.Info("Recording Stopped now")
 	return gr.Button(interactive=True)
 
+audio_data = None
+streaming_rate = None
+
+def capture_audio(stream, new_chunk):
+    """
+    Function to capture streaming audio and accumulate it in a global variable.
+
+    Args:
+        stream (numpy.ndarray): The accumulated audio data up to this point.
+        new_chunk (tuple): A tuple containing the sampling rate and the new audio data chunk.
+
+    Returns:
+        numpy.ndarray: The updated stream with the new chunk appended.
+    """
+    global audio_data
+    global streaming_rate
+
+    # Extract sampling rate and audio chunk, normalize the audio
+    sr, y = new_chunk
+    streaming_rate = sr
+    y = y.astype(np.float32)
+    y /= np.max(np.abs(y))
+
+    # Concatenate new audio chunk to the existing stream or start a new one
+    if stream is not None:
+        stream = np.concatenate([stream, y])
+    else:
+        stream = y
+
+    # Update the global variable with the new audio data
+    audio_data = stream
+    return stream
+
+
 def streamingAudio(stream, new_chunk):
 	print('New streaming chunk')
 	print(new_chunk)
@@ -235,7 +273,7 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True)
+			t_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True, type="numpy")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
@@ -245,7 +283,7 @@ with gr.Blocks() as demo:
 		t_output_text = gr.Markdown(label="Output Text")
 		t_state = gr.State()
 
-		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=t_state)
+		t_audio.stream(fn=capture_audio, inputs=[t_state, t_audio], outputs=[t_state])
 		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type], outputs=t_output_text, api_name=False)
