@@ -178,6 +178,8 @@ def streamingAudio(stream, new_chunk):
 	#print(new_chunk)
 	#print(dir(new_chunk))
 	#print(type(new_chunk))
+	if not new_chunk:
+		return stream
 	new_chunk_segment = AudioSegment.from_wav(new_chunk)
 
 	#sr, y = new_chunk
