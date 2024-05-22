@@ -213,7 +213,7 @@ def streamingAudio(stream, new_chunk):
 	return stream
 
 	
-with gr.Blocks() as demo:
+with gr.Blocks(head=shortcut_js) as demo:
 	
 	with gr.Tab("All In One"):
 		gr.Markdown(title)
