@@ -194,15 +194,19 @@ def recordingStopped(audio):
 	#gr.Info("Recording Stopped now")
 	return gr.Button(interactive=True)
 
+last_chunk_time = None
+
 def streamingAudio(stream, new_chunk):
 	#print('New streaming chunk')
 	#print(datetime.now().isoformat())
 	#print(new_chunk)
 	#print(dir(new_chunk))
 	#print(type(new_chunk))
+	global last_chunk_time
 	if not new_chunk:
 		return stream
 	new_chunk_segment = AudioSegment.from_wav(new_chunk)
+	last_chunk_time = datetime.now().timestamp()
 
 	#sr, y = new_chunk
 	#y = y.astype(np.float32)
@@ -216,9 +220,9 @@ def streamingAudio(stream, new_chunk):
 		#print("First chunk")
 		stream = new_chunk_segment
 	#print("Returning stream")
-	return stream
+	return stream, last_chunk_time
 
-	
+
 with gr.Blocks(head=shortcut_js) as demo:
 	
 	with gr.Tab("All In One"):
@@ -282,14 +286,17 @@ with gr.Blocks(head=shortcut_js) as demo:
 			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath", elem_id="t_audio")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
-		t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
+		with gr.Row():
+			t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
+			t_last_chunk = gr.Textbox(value="Not run yet")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
 		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
 		t_state = gr.State()
+		
 
-		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state])
+		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state, t_last_chunk])
 		#t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
