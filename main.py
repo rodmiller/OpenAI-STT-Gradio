@@ -39,6 +39,7 @@ title = "# <center> Physician's Assistant - "+device+"</center>"
 shortcut_js = """
 <script>
 function shortcutsdown(e) {
+	if (e.repeat) return;
     if (e.key == "r") {
         document.querySelector("#aio_audio > div.audio-container.svelte-cbyffp > div.mic-wrap.svelte-1m31gsz > div.controls.svelte-1m31gsz > button").click();
     }
