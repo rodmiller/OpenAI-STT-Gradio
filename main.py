@@ -222,6 +222,12 @@ def streamingAudio(stream, new_chunk):
 	#print("Returning stream")
 	return stream, last_chunk_time
 
+def stopTranscribing(last_chunk_timstamp):
+	return datetime.now().timestamp()
+
+
+def newChunkReceieved(new_chunk_timestamp):
+	print(new_chunk_timestamp)
 
 with gr.Blocks(head=shortcut_js) as demo:
 	
@@ -288,14 +294,16 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		with gr.Row():
 			t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
-			t_last_chunk = gr.Textbox(value="Not run yet")
+			t_last_chunk = gr.Textbox(value="Not run yet", interactive=False)
+			t_audio_stopped_time = gr.Textbox(value="Not run yet", interactive=False)
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
 		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
 		t_output_text = gr.Markdown(label="Output Text")
 		t_state = gr.State()
 		
-
+		t_audio.stop_recording(fn=stopTranscribing, inputs=[t_last_chunk], outputs=[t_audio_stopped_time])
+		#t_last_chunk.change(fn=newChunkReceieved, inputs=p[])
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state, t_last_chunk])
 		#t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text)
