@@ -36,6 +36,22 @@ frontmatter = ""
 title = "# <center> Physician's Assistant - "+device+"</center>"
 
 
+shortcut_js = """
+<script>
+function shortcuts(e) {
+
+    if (e.key == "r") {
+        document.getElementById("aio_audio").click();
+    }
+    else {
+        alert(e.code);
+        }
+}
+document.addEventListener('keyup', shortcuts, false);
+</script>
+"""
+
+
 if openai_key == "<YOUR_OPENAI_KEY>":
 	openai_key = ""
 
