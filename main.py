@@ -308,9 +308,10 @@ with gr.Blocks(head=shortcut_js) as demo:
 			t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
 			t_last_chunk = gr.Textbox(value="Not run yet", interactive=False)
 			t_audio_stopped_time = gr.Textbox(value="Not run yet", interactive=False)
+			t_streaming_checkbox = gr.Checkbox(value=False, label="Streaming audio?")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
 		t_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
-		t_streaming_checkbox = gr.Checkbox(value=False, label="Streaming audio?")
+		
 
 		t_output_text = gr.Markdown(label="Output Text")
 		t_state = gr.State()
