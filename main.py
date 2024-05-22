@@ -246,12 +246,13 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		with gr.Row():
 			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True, elem_id="aio_audio")
+			aio_streaming_checkbox = gr.Checkbox(value=True, label="Streaming audio")
 			#aio_audio_batch = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=False, visible=False, elem_id="aio_audio")
 			aio_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		with gr.Row():
 			aio_last_chunk = gr.Textbox(value=None, interactive=False, placeholder="Not run yet", label="Timestamp of last chunk")
-			aio_streaming_checkbox = gr.Checkbox(value=True, label="Streaming audio")
+			
 			aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True, elem_id="aio_submit_button")
 			#aio_submit_button_batch = gr.Button(value="Transcribe and Process", interactive=True, visible=False, elem_id="aio_submit_button")
 
