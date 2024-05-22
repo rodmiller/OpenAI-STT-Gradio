@@ -48,6 +48,9 @@ function shortcutsup(e) {
     if (e.key == "r") {
         document.querySelector("#aio_audio > div.audio-container.svelte-cbyffp > div.mic-wrap.svelte-1m31gsz > div.controls.svelte-1m31gsz > button").click();
     }
+    if (e.key == "t") {
+    	document.querySelector("#aio_submit_button").click()
+    }
 }
 document.addEventListener('keyup', shortcutsup, false);
 document.addEventListener('keydown', shortcutsdown, false);
