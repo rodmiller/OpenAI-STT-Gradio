@@ -228,7 +228,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True, elem_id="aio_audio")
 			aio_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
-		aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True)
+		aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True, elem_id="aio_submit_button")
 
 		aio_output_text = gr.Markdown(label="Output Text")
 
@@ -279,7 +279,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath", elem_id="t_audio")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
-		t_submit_button = gr.Button(value="Retranscribe")
+		t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
 		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 
@@ -287,7 +287,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		t_state = gr.State()
 
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state])
-		t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
+		#t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		t_file.upload(fn=transcript, inputs=[t_file, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text)
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
 		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
