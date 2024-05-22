@@ -236,7 +236,7 @@ with gr.Blocks() as demo:
 		aio_processed_text = gr.Markdown(label="Processed Text")
 		aio_state = gr.State()
 
-		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
+		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state], elem_id="aio_audio")
 		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
@@ -273,7 +273,7 @@ with gr.Blocks() as demo:
 			t_response_type = gr.Dropdown(choices=["json", "text", "srt", "verbose_json", "vtt"], label="Response Type", value="text")
 
 		with gr.Row():
-			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath")
+			t_audio = gr.Audio(sources=["microphone"], show_download_button=True, streaming=True, type="filepath", elem_id="t_audio")
 			t_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		t_submit_button = gr.Button(value="Retranscribe")
