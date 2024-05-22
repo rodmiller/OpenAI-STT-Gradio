@@ -232,6 +232,10 @@ def stopTranscribing(last_chunk_timstamp):
 def newChunkReceieved(new_chunk_timestamp):
 	print(new_chunk_timestamp)
 
+def streamingChange(checkbox_value):
+	return gr.Audio(streaming=False)
+
+
 with gr.Blocks(head=shortcut_js) as demo:
 	
 	with gr.Tab("All In One"):
@@ -242,11 +246,13 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		with gr.Row():
 			aio_audio = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=True, elem_id="aio_audio")
+			#aio_audio_batch = gr.Audio(sources=["microphone"], type="filepath", show_download_button=True, streaming=False, visible=False, elem_id="aio_audio")
 			aio_file = gr.UploadButton(file_types=[".mp3", ".wav"], label="Select File", type="filepath")
 
 		with gr.Row():
 			aio_last_chunk = gr.Textbox(value=None, interactive=False, placeholder="Not run yet", label="Timestamp of last chunk")
 			aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True, elem_id="aio_submit_button")
+			#aio_submit_button_batch = gr.Button(value="Transcribe and Process", interactive=True, visible=False, elem_id="aio_submit_button")
 
 		aio_output_text = gr.Markdown(label="Output Text")
 
@@ -303,11 +309,13 @@ with gr.Blocks(head=shortcut_js) as demo:
 			t_last_chunk = gr.Textbox(value="Not run yet", interactive=False)
 			t_audio_stopped_time = gr.Textbox(value="Not run yet", interactive=False)
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
-		t_process_type = p_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
+		t_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
+		t_streaming_checkbox = gr.Checkbox(value=False, label="Streaming audio?")
 
 		t_output_text = gr.Markdown(label="Output Text")
 		t_state = gr.State()
-		
+
+		t_streaming_checkbox.change(fn=streamingChange, inputs=[t_streaming_checkbox], outputs=[t_audio])
 		t_audio.stop_recording(fn=stopTranscribing, inputs=[t_last_chunk], outputs=[t_audio_stopped_time])
 		#t_last_chunk.change(fn=newChunkReceieved, inputs=p[])
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state, t_last_chunk])
