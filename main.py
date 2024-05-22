@@ -41,7 +41,7 @@ shortcut_js = """
 function shortcuts(e) {
 
     if (e.key == "r") {
-        document.getElementById("aio_audio").click();
+        document.querySelector("#aio_audio > div.audio-container.svelte-cbyffp > div.mic-wrap.svelte-1m31gsz > div.controls.svelte-1m31gsz > button").click();
     }
     else {
         alert(e.code);
