@@ -38,16 +38,18 @@ title = "# <center> Physician's Assistant - "+device+"</center>"
 
 shortcut_js = """
 <script>
-function shortcuts(e) {
-
+function shortcutsdown(e) {
     if (e.key == "r") {
         document.querySelector("#aio_audio > div.audio-container.svelte-cbyffp > div.mic-wrap.svelte-1m31gsz > div.controls.svelte-1m31gsz > button").click();
     }
-    else {
-        alert(e.code);
-        }
 }
-document.addEventListener('keyup', shortcuts, false);
+function shortcutsup(e) {
+    if (e.key == "r") {
+        document.querySelector("#aio_audio > div.audio-container.svelte-cbyffp > div.mic-wrap.svelte-1m31gsz > div.controls.svelte-1m31gsz > button").click();
+    }
+}
+document.addEventListener('keyup', shortcutsup, false);
+document.addEventListener('keydown', shortcutsdown, false);
 </script>
 """
 
