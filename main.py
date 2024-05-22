@@ -251,6 +251,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		with gr.Row():
 			aio_last_chunk = gr.Textbox(value=None, interactive=False, placeholder="Not run yet", label="Timestamp of last chunk")
+			t_streaming_checkbox = gr.Checkbox(value=True, label="Streaming audio")
 			aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True, elem_id="aio_submit_button")
 			#aio_submit_button_batch = gr.Button(value="Transcribe and Process", interactive=True, visible=False, elem_id="aio_submit_button")
 
@@ -263,6 +264,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		aio_processed_text = gr.Markdown(label="Processed Text")
 		aio_state = gr.State()
 
+		aio_streaming_checkbox.change(fn=streamingChange, inputs=[aio_streaming_checkbox], outputs=[aio_audio])
 		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
 		aio_audio.stream(fn=streamingAudioUpdateTimestamp, inputs=None, outputs=[aio_last_chunk])
 		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
@@ -308,7 +310,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 			t_submit_button = gr.Button(value="Transcribe", elem_id="t_submit_button")
 			t_last_chunk = gr.Textbox(value="Not run yet", interactive=False)
 			t_audio_stopped_time = gr.Textbox(value="Not run yet", interactive=False)
-			t_streaming_checkbox = gr.Checkbox(value=False, label="Streaming audio?")
+			t_streaming_checkbox = gr.Checkbox(value=True, label="Streaming audio")
 		t_always_process_checkbox = gr.Checkbox(visible=False, value=False)
 		t_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type, visible=False)
 		
