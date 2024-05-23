@@ -83,16 +83,18 @@ def pretty_return(messages):
 		result = result + m.content[0].text.value + "\n"
 	return result
 
-def transcript(audio, model, response_type, checkbox_value, process_type, state):
+def transcript(audio, model, response_type, checkbox_value, process_type, streaming, state):
 	#global audio_data
 	#global streaming_rate
 	#audio_file = wavio.write("to_transcribe.wav", audio_data, streaming_rate)
 
-	#Last run of streaming audio
-	sleep(5)
-	state = streamingAudio(state, audio)
-	#Export the audioSegment to a file
-	state.export("to_transcribe.wav", format="wav")
+	#if streaming then do this:
+	if streaming:
+		#Last run of streaming audio
+		#sleep(5)
+		state = streamingAudio(state, audio)
+		#Export the audioSegment to a file
+		state.export("to_transcribe.wav", format="wav")
 	
 
 	try:
@@ -101,7 +103,10 @@ def transcript(audio, model, response_type, checkbox_value, process_type, state)
 		client = OpenAI(api_key=openai_key)
 		print(audio)
 		gr.Info("Transcribing...")
-		audio_file = open("to_transcribe.wav", "rb")
+		if streaming:
+			audio_file = open("to_transcribe.wav", "rb")
+		else:
+			audio_time = open(audio, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -195,6 +200,8 @@ def recordingStopped(audio):
 	return gr.Button(interactive=True)
 
 #last_chunk_time = None
+is_transcribing = False
+
 
 def streamingAudio(stream, new_chunk):
 	#print('New streaming chunk')
@@ -223,11 +230,17 @@ def streamingAudio(stream, new_chunk):
 	return stream
 
 def streamingAudioUpdateTimestamp():
+	if is_transcribing:
+		return None
 	return datetime.now().timestamp()
 
 def stopTranscribing(last_chunk_timstamp):
+	is_transcribing = False
 	return datetime.now().timestamp()
 
+def startTranscribing(last_chunk_timstamp):
+	is_transcribing = True
+	return None
 
 def newChunkReceieved(new_chunk_timestamp):
 	print(new_chunk_timestamp)
@@ -268,7 +281,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		aio_streaming_checkbox.change(fn=streamingChange, inputs=[aio_streaming_checkbox], outputs=[aio_audio])
 		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
 		aio_audio.stream(fn=streamingAudioUpdateTimestamp, inputs=None, outputs=[aio_last_chunk])
-		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
+		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
 		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text)
@@ -321,6 +334,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		t_streaming_checkbox.change(fn=streamingChange, inputs=[t_streaming_checkbox], outputs=[t_audio])
 		t_audio.stop_recording(fn=stopTranscribing, inputs=[t_last_chunk], outputs=[t_audio_stopped_time])
+		t_audio.start_recording(fn=startTranscribing, inputs=[t_last_chunk], outputs=[t_audio_stopped_time])
 		#t_last_chunk.change(fn=newChunkReceieved, inputs=p[])
 		t_audio.stream(fn=streamingAudio, inputs=[t_state, t_audio], outputs=[t_state, t_last_chunk])
 		#t_audio.stop_recording(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_state], outputs=t_output_text, api_name=False)
