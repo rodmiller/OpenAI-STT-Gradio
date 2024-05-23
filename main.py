@@ -246,6 +246,7 @@ def newChunkReceieved(new_chunk_timestamp):
 	print(new_chunk_timestamp)
 
 def streamingChange(checkbox_value):
+	print(checkbox_value)
 	return gr.Audio(streaming=checkbox_value)
 
 
