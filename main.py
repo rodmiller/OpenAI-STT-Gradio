@@ -233,7 +233,7 @@ def newChunkReceieved(new_chunk_timestamp):
 	print(new_chunk_timestamp)
 
 def streamingChange(checkbox_value):
-	return gr.Audio(streaming=False)
+	return gr.Audio(streaming=checkbox_value)
 
 
 with gr.Blocks(head=shortcut_js) as demo:
