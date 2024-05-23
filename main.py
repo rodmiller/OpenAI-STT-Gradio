@@ -98,15 +98,16 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 	
 
 	try:
-		print(get_user(gr.Request()))
+		#print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
-		print(audio)
 		gr.Info("Transcribing...")
 		if streaming:
-			audio_file = open("to_transcribe.wav", "rb")
+			audio_file_path = "to_transcribe.wav"
 		else:
-			audio_time = open(audio, "rb")
+			audio_file_path = audio
+		print(audio_file_path)
+		audio_file = open(audio_file_path, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
 			file=audio_file,
@@ -115,11 +116,11 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 	except Exception as error:
 		print(str(error))
 		raise gr.Error("An error occurred while generating speech. Please check your API key and come back try again.")
-	print(checkbox_value)
+	#print(checkbox_value)
 	if checkbox_value:
-		return process(transcriptions, process_type)
+		return process(transcriptions, process_type), audio_file
 	else:
-		return transcriptions
+		return transcriptions, audio_file
 
 def process(output_text, process_type):
 	if not process_type:
@@ -270,6 +271,8 @@ with gr.Blocks(head=shortcut_js) as demo:
 			aio_submit_button = gr.Button(value="Transcribe and Process", interactive=True, elem_id="aio_submit_button")
 			#aio_submit_button_batch = gr.Button(value="Transcribe and Process", interactive=True, visible=False, elem_id="aio_submit_button")
 
+		aio_output_audio = gr.Audio(value=None, visible=True, label='Submitted audio')
+
 		aio_output_text = gr.Markdown(label="Output Text")
 
 		aio_process_type = gr.Dropdown(choices=list(process_types.keys()), label="Process Type", value=last_process_type)
@@ -279,10 +282,12 @@ with gr.Blocks(head=shortcut_js) as demo:
 		aio_processed_text = gr.Markdown(label="Processed Text")
 		aio_state = gr.State()
 
+
+
 		aio_streaming_checkbox.change(fn=streamingChange, inputs=[aio_streaming_checkbox], outputs=[aio_audio])
 		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
 		aio_audio.stream(fn=streamingAudioUpdateTimestamp, inputs=None, outputs=[aio_last_chunk])
-		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state], outputs=aio_output_text, api_name=False)
+		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state], outputs=[aio_output_text, aio_output_audio], api_name=False)
 		#aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
 		aio_file.upload(fn=transcript, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text)
