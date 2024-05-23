@@ -118,9 +118,9 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		raise gr.Error("An error occurred while generating speech. Please check your API key and come back try again.")
 	#print(checkbox_value)
 	if checkbox_value:
-		return process(transcriptions, process_type), audio_file
+		return process(transcriptions, process_type), audio_file_path
 	else:
-		return transcriptions, audio_file
+		return transcriptions, audio_file_path
 
 def process(output_text, process_type):
 	if not process_type:
