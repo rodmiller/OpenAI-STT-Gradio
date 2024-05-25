@@ -12,6 +12,12 @@ from time import sleep
 import subprocess
 
 
+def get_git_revision_hash() -> str:
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+
+def get_git_revision_short_hash() -> str:
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
+
 load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
@@ -59,11 +65,7 @@ document.addEventListener('keydown', shortcutsdown, false);
 </script>
 """
 
-def get_git_revision_hash() -> str:
-    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
-def get_git_revision_short_hash() -> str:
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
 
 
 if openai_key == "<YOUR_OPENAI_KEY>":
