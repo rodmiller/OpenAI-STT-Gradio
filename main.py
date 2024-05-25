@@ -240,11 +240,11 @@ def streamingAudio(stream, new_chunk):
 
 	if stream is not None:
 		#print("Adding chunk to stream")
-		stream.append(new_chunk_segment)
+		stream.append(new_chunk)
 		#print("Added chunk to stream")
 	else:
 		#print("First chunk")
-		stream = [new_chunk_segment]
+		stream = [new_chunk]
 	#print("Returning stream")
 	return stream
 
