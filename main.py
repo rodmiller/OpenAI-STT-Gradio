@@ -285,7 +285,7 @@ def get_recording_files():
 
 def selectRecordingFile(evt: gr.SelectData):
 	print("Selected: "+ evt.value)
-	return evt.value
+	return gr.File(value='./recordings/'+evt.value)
 
 
 with gr.Blocks(head=shortcut_js) as demo:
@@ -331,7 +331,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
-		aio_files.select(fn=selectRecordingFile, inputs=[])
+		aio_files.select(fn=selectRecordingFile, outputs=aio_file)
 	
 	with gr.Tab("Processing"):
 		gr.Markdown(title)
