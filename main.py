@@ -117,7 +117,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 				print("Adding Chunk: "+ str(chunk))
 				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
 		print("Finished compiling segments")
-		stamp = datetime.now(microsecond=0).isoformat()
+		stamp = datetime.now().replace(microsecond=0).isoformat()
 		audio_file_path = "recordings/"+stamp+".wav"
 		print("Going to be saving to: " + audio_file_path)
 		print("Assembling chunks")
