@@ -286,7 +286,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		aio_streaming_checkbox.change(fn=streamingChange, inputs=[aio_streaming_checkbox], outputs=[aio_audio])
 		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
-		aio_audio.stream(fn=streamingAudioUpdateTimestamp, inputs=None, outputs=[aio_last_chunk])
+		#aio_audio.stream(fn=streamingAudioUpdateTimestamp, inputs=None, outputs=[aio_last_chunk])
 		aio_submit_button.click(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state], outputs=[aio_output_text, aio_output_audio], api_name=False)
 		#aio_audio.stop_recording(fn=transcript, inputs=[aio_audio, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_state], outputs=aio_output_text, api_name=False)
 		#aio_audio.stop_recording(fn=recordingStopped, inputs=[aio_audio], outputs=[aio_submit_button])
