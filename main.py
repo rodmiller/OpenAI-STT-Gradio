@@ -105,14 +105,17 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		state = streamingAudio(state, audio)
 		#Export the audioSegment to a file
 		print("Assembling chunks")
+		#assembled_segments = None
+		#print("Set assembled chunks to None")
 		print("STATE: "+ str(state))
+
 		for chunk in state:
-			print("Adding Chunk: "+ str(chunk))
-			if assembled_segments:
-				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
-			else:
+			if not assembled_segments:
 				print("First Chunk: " + str(chunk))
 				assembled_segments = AudioSegment.from_wav(chunk)
+			else:
+				print("Adding Chunk: "+ str(chunk))
+				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
 		print("Finished compiling segments")
 		stamp = datetime.now(microsecond=0).isoformat()
 		audio_file_path = "recordings/"+stamp+".wav"
