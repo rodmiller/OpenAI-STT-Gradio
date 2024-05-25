@@ -283,6 +283,10 @@ def streamingChange(checkbox_value):
 def get_recording_files():
 	return [os.path.abspath('./recordings/'+x) for x in os.listdir('./recordings')]
 
+def selectRecordingFile(evt: gr.SelectData):
+	print("Selected: "+ evt.value)
+	return evt.value
+
 
 with gr.Blocks(head=shortcut_js) as demo:
 	
@@ -327,6 +331,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+		aio_files.select(fn=selectRecordingFile, inputs=[])
 	
 	with gr.Tab("Processing"):
 		gr.Markdown(title)
