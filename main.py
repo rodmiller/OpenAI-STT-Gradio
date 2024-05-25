@@ -104,19 +104,24 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		#sleep(5)
 		state = streamingAudio(state, audio)
 		#Export the audioSegment to a file
-		state.export("to_transcribe.wav", format="wav")
-	
-
+		print("Assembling chunks")
+		for chunk in state:
+			if assembled_segments:
+				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
+			else:
+				assembled_segments = AudioSegment.from_wav(chunk)
+		stamp = datetime.now(microsecond=0).isoformat()
+		audio_file_path = "recordings/"+stamp+".wav"
+		assembled_segments.export(audio_file_path, format="wav")
+		print("File saved to: "+audio_file_path)
 	try:
 		#print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		gr.Info("Transcribing...")
-		if streaming:
-			audio_file_path = "to_transcribe.wav"
-		else:
+		if not streaming:
 			audio_file_path = audio
-		print(audio_file_path)
+		#print(audio_file_path)
 		audio_file = open(audio_file_path, "rb")
 		transcriptions = client.audio.transcriptions.create(
 			model=model,
@@ -223,20 +228,23 @@ def streamingAudio(stream, new_chunk):
 	#global last_chunk_time
 	if not new_chunk:
 		return stream
-	new_chunk_segment = AudioSegment.from_wav(new_chunk)
+	#new_chunk_segment = AudioSegment.from_wav(new_chunk)
 	#last_chunk_time = datetime.now().timestamp()
-
+	#chunk_stamp = 
 	#sr, y = new_chunk
 	#y = y.astype(np.float32)
 	#y /= np.max(np.abs(y))
 
+	#Possibly add a timestamp as a key for each chunk then order them correctly before processing?
+	# Only if chunks get out of order!
+
 	if stream is not None:
 		#print("Adding chunk to stream")
-		stream = stream + new_chunk_segment
+		stream = [new_chunk_segment]
 		#print("Added chunk to stream")
 	else:
 		#print("First chunk")
-		stream = new_chunk_segment
+		stream.append(new_chunk_segment)
 	#print("Returning stream")
 	return stream
 
