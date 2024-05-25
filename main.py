@@ -41,7 +41,7 @@ last_process_type = default_process_type
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
-title = "# <center> Physician's Assistant - "+device+"</center> Version: "+get_git_revision_short_hash()
+title = "# <center> Physician's Assistant - "+device+"</center> \n ### Version: "+get_git_revision_short_hash()
 
 
 shortcut_js = """
