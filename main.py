@@ -105,6 +105,7 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		state = streamingAudio(state, audio)
 		#Export the audioSegment to a file
 		print("Assembling chunks")
+		print(state)
 		for chunk in state:
 			if assembled_segments:
 				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
