@@ -9,6 +9,8 @@ import numpy as np
 from pydub import AudioSegment
 import wavio
 from time import sleep
+import subprocess
+
 
 load_dotenv()
 
@@ -33,7 +35,7 @@ last_process_type = default_process_type
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
-title = "# <center> Physician's Assistant - "+device+"</center>"
+title = "# <center> Physician's Assistant - "+device+"</center><right>"+get_git_revision_short_hash()+"</right>"
 
 
 shortcut_js = """
@@ -56,6 +58,12 @@ document.addEventListener('keyup', shortcutsup, false);
 document.addEventListener('keydown', shortcutsdown, false);
 </script>
 """
+
+def get_git_revision_hash() -> str:
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+
+def get_git_revision_short_hash() -> str:
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
 
 
 if openai_key == "<YOUR_OPENAI_KEY>":
