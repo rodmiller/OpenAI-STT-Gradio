@@ -12,6 +12,9 @@ from time import sleep
 import subprocess
 
 
+
+
+
 def get_git_revision_hash() -> str:
     return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
@@ -277,6 +280,9 @@ def streamingChange(checkbox_value):
 	print(checkbox_value)
 	return gr.Audio(streaming=checkbox_value)
 
+def get_recording_files():
+	return [f for f in os.listdir("./recordings") if os.path.isfile(os.path.join(mypath, f))]
+
 
 with gr.Blocks(head=shortcut_js) as demo:
 	
@@ -308,6 +314,8 @@ with gr.Blocks(head=shortcut_js) as demo:
 
 		aio_processed_text = gr.Markdown(label="Processed Text")
 		aio_state = gr.State()
+
+		aio_files = gr.Files(value=get_recording_files())
 
 		aio_streaming_checkbox.change(fn=streamingChange, inputs=[aio_streaming_checkbox], outputs=[aio_audio])
 		aio_audio.stream(fn=streamingAudio, inputs=[aio_state, aio_audio], outputs=[aio_state])
