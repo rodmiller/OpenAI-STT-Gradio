@@ -105,8 +105,8 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		state = streamingAudio(state, audio)
 		#Export the audioSegment to a file
 		print("Assembling chunks")
-		#assembled_segments = None
-		#print("Set assembled chunks to None")
+		assembled_segments = None
+		print("Set assembled chunks to None")
 		print("STATE: "+ str(state))
 
 		for chunk in state:
