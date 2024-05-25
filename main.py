@@ -281,7 +281,7 @@ def streamingChange(checkbox_value):
 	return gr.Audio(streaming=checkbox_value)
 
 def get_recording_files():
-	return os.listdir("recordings")
+	return [f for f in os.listdir("recordings") os.path.join("recordings", f)]
 
 
 with gr.Blocks(head=shortcut_js) as demo:
