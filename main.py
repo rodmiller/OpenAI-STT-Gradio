@@ -286,7 +286,7 @@ def get_recording_files():
 
 def selectRecordingFile(evt: gr.SelectData, aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state):
 	print("Selected: "+ evt.value)
-	return transcript(aio_file, aio_model, aio_response_type, io_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state)
+	return transcript(aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state)
 
 def transcribeFromFile(evt: gr.SelectData):
 	return
