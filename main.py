@@ -293,7 +293,10 @@ def transcribeFromFile(evt: gr.SelectData):
 
 
 def get_mrn(transcribed_text):
-	return re.match('\d{4-8}', transcribed_text)
+	match = re.match('\d{4-8}', transcribed_text)
+	if match:
+		return match
+	return "Unknown"
 
 with gr.Blocks(head=shortcut_js) as demo:
 	
