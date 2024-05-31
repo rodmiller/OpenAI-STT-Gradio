@@ -283,9 +283,9 @@ def streamingChange(checkbox_value):
 def get_recording_files():
 	return [os.path.abspath('./recordings/'+x) for x in os.listdir('./recordings')]
 
-def selectRecordingFile(evt: gr.SelectData):
+def selectRecordingFile(evt: gr.SelectData, aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state):
 	print("Selected: "+ evt.value)
-	return 
+	return transcript(aio_file, aio_model, aio_response_type, io_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state)
 
 def transcribeFromFile(evt: gr.SelectData):
 	return
