@@ -179,7 +179,7 @@ def process(output_text, process_type):
 
 def save_result(processed_result, extra_tag):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
-	frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag.replace(" ", "_")+"\n---\n"
+	frontmatter = "---\nMRN: "+get_mrn(processed_result)+"\ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag.replace(" ", "_")+"\n---\n"
 	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
@@ -285,8 +285,14 @@ def get_recording_files():
 
 def selectRecordingFile(evt: gr.SelectData):
 	print("Selected: "+ evt.value)
-	return gr.File(value='./recordings/'+evt.value)
+	return 
 
+def transcribeFromFile(evt: gr.SelectData):
+	return
+
+
+def get_mrn(transcribed_text):
+	return re.match('\d{4-8}', transcribed_text)
 
 with gr.Blocks(head=shortcut_js) as demo:
 	
@@ -331,7 +337,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 		#aio_resubmit_button.click(fn=transcript, inputs=[audio, model, response_type, always_process_checkbox, process_type], outputs=output_text, api_name=False)
 		aio_process_button.click(fn=process, inputs=[aio_output_text, aio_process_type], outputs=aio_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
-		aio_files.select(fn=selectRecordingFile, outputs=aio_file)
+		aio_files.select(fn=selectRecordingFile, inputs=[aio_file, aio_model, aio_response_type, aio_always_process_checkbox, aio_process_type, aio_streaming_checkbox, aio_state], outputs=aio_file)
 	
 	with gr.Tab("Processing"):
 		gr.Markdown(title)
