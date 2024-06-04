@@ -36,7 +36,9 @@ process_types = {
 	"Clinic Letter": "asst_m7ObZXl7fZPkz2iFnU2GPwQ5",
 	"Results Letter": "asst_VC18ebPqMbuNKmi5MshnWNcM",
 	"Correspondence Letter": "asst_QtANS1beG7PvnztjlYjXj0NV",
-	"Endoscopy Report": "asst_pVFGXvuDIVZzUjKT2C88KL4R"
+	"Endoscopy Report": "asst_pVFGXvuDIVZzUjKT2C88KL4R",
+	"Email": "asst_UHCjHjKO8nIYR8ZFAu6H9lDU",
+	"Notes": "asst_scDIjxOiR180LjoGclOJPI0i"
 }
 default_process_type = "Correspondence Letter"
 last_process_type = default_process_type
