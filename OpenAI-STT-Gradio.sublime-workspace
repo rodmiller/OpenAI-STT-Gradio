@@ -1,0 +1,338 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"transcr",
+				"transcript"
+			],
+			[
+				"selec",
+				"selectRecordingFile"
+			],
+			[
+				"audio_",
+				"audio_file_path"
+			],
+			[
+				"audio",
+				"audio_file_path"
+			],
+			[
+				"Aud",
+				"AudioSegment"
+			],
+			[
+				"ass",
+				"assembled_segments"
+			],
+			[
+				"ouput",
+				"outputs"
+			],
+			[
+				"outp",
+				"output_file"
+			],
+			[
+				"out",
+				"output_file"
+			],
+			[
+				"outpu",
+				"output_text"
+			],
+			[
+				"output",
+				"output_text"
+			],
+			[
+				"organi",
+				"organiser_profile"
+			],
+			[
+				"grid",
+				"grid-cols-1"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"git",
+				"Set Syntax: Git Commit Message"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"ui sele",
+				"UI: Select Color Scheme"
+			],
+			[
+				"package insta",
+				"Package Control: Install Package"
+			],
+			[
+				"color",
+				"UI: Select Color Scheme"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+	],
+	"file_history":
+	[
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/requirements.txt",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/main.py",
+		"/Users/robert/Projects/dictaphone/requirements.txt",
+		"/Users/robert/Projects/dictaphone/templates/index.html",
+		"/Users/robert/Projects/dictaphone/app.py",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/compose.yaml",
+		"/Users/robert/Projects/gradio-dictaphone/dictaphone/downloaded_app.py",
+		"/Users/robert/Projects/gradio-dictaphone/dictaphone/app.py",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/Caddyfile",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/Dockerfile",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/authelia_config/configuration.yml",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/dictaphone.js",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/dictaphone-js-demo.html",
+		"/Users/robert/Projects/gradio-dictaphone/OpenAI-STT-Gradio/interface.html",
+		"/Users/robert/Projects/gradio-dictaphone/dictaphone/forked_downloded_app.py",
+		"/Users/robert/Projects/gradio-dictaphone/dictaphone/openai-stt-gradio.py",
+		"/Users/robert/Documents/authelia.yml",
+		"/Users/robert/Projects/gradio-dictaphone/downloaded_app.py",
+		"/Users/robert/Torrents/Star.Wars.Jedi.Fallen.Order-CODEX/codex.nfo",
+		"/Users/robert/Projects/ml5/style.css",
+		"/Users/robert/Projects/ml5/script.js",
+		"/Users/robert/Projects/ml5/In-dev-index.html",
+		"/Users/robert/Projects/ml5/index.html",
+		"/Users/robert/Projects/doctorsVote/templates/voting/index.html",
+		"/Users/robert/Projects/doctorsVote/doctorsVote/settings.py",
+		"/Users/robert/Projects/doctorsVote/blog/urls.py",
+		"/Users/robert/Projects/doctorsVote/voting/views.py",
+		"/Users/robert/Projects/doctorsVote/voting/models.py",
+		"/Users/robert/Projects/doctorsVote/templates/voting/user_profile.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/signup.html",
+		"/Users/robert/Projects/doctorsVote/voting/templates/base.html",
+		"/Users/robert/Projects/doctorsVote/templates/voting/home.html",
+		"/Users/robert/Projects/doctorsVote/doctorsVote/urls.py",
+		"/Users/robert/Projects/doctorsVote/templates/account/password_reset_done.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/verification_sent.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/login.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/password_reset.html",
+		"/Users/robert/Projects/doctorsVote/theme/static_src/tailwind.config.js",
+		"/Users/robert/Projects/doctorsVote/templates/account/base.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/email_confirm.html",
+		"/Users/robert/Projects/doctorsVote/templates/account/provider_list.html",
+		"/Users/robert/Projects/doctorsVote/.gitignore",
+		"/Users/robert/Projects/creation-dating/Dockerfile",
+		"/Users/robert/Projects/creation-dating/creation_dating/settings.py",
+		"/Users/robert/Projects/creation-dating/configs/requirements.txt",
+		"/Users/robert/Library/Application Support/CrossOver/Bottles/God Of War-3/cxbottle.conf",
+		"/Users/robert/Projects/BMGSD/Site rip/creation_dating/configs/requirements.txt"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 158.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"get_mrn",
+			"sleep"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 58.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "OpenAI-STT-Gradio.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"urls",
+				"doctorsVote/urls.py"
+			],
+			[
+				"views.",
+				"voting/views.py"
+			],
+			[
+				"views",
+				"voting/views.py"
+			],
+			[
+				"base",
+				"voting/templates/base.html"
+			],
+			[
+				"home",
+				"templates/voting/home.html"
+			],
+			[
+				"sign",
+				"templates/account/signup.html"
+			],
+			[
+				"ta",
+				"theme/static_src/tailwind.config.js"
+			],
+			[
+				"base.",
+				"templates/account/base.html"
+			],
+			[
+				"profile",
+				"templates/voting/user_profile.html"
+			],
+			[
+				"voting/views",
+				"voting/views.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 243.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
