@@ -23,7 +23,7 @@ def get_git_revision_short_hash() -> str:
     return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
 
 load_dotenv()
-
+	
 openai_key = os.getenv("OPENAI_API_KEY")
 user = os.getenv("USER")
 device = ''
@@ -183,6 +183,7 @@ def process(output_text, process_type):
 def save_result(processed_result, extra_tag):
 	timestamp = datetime.now().replace(microsecond=0).isoformat()
 	frontmatter = "---\nMRN: "+get_mrn(processed_result)+"\ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: \n - dictation\n - "+extra_tag.replace(" ", "_")+"\n---\n"
+	#frontmatter = ""
 	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
