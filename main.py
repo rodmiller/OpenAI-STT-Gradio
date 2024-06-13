@@ -96,7 +96,7 @@ def pretty_return(messages):
 	#print("Messages")
 	result = ""
 	for m in messages:
-		result = result + m.content[0].text.value + "\n\n\n --- \n\n\n"
+		result = result + m.content[0].text.value + "\n\n\n---\n\n\n"
 	return result
 
 def transcript(audio, model, response_type, checkbox_value, process_type, streaming, state):
