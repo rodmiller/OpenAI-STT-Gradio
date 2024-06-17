@@ -45,6 +45,7 @@ services:
   authelia:
     image: authelia/authelia
     container_name: dict-authelia
+    restart: always
     volumes:
       - ./authelia_config:/config
     ports:
