@@ -135,7 +135,10 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		client = OpenAI(api_key=openai_key)
 		gr.Info("Transcribing...")
 		if not streaming:
+			gr.Info("Opening uploaded file...")
+			print(audio)
 			audio_file_path = audio
+		print(audio_file_path)
 		#print(audio_file_path)
 		audio_file = open(audio_file_path, "rb")
 		transcriptions = client.audio.transcriptions.create(
