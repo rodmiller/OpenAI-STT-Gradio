@@ -304,7 +304,7 @@ def transcribeFromFile(evt: gr.SelectData):
 
 def getLastFile():
 	try:
-		return open("/home/"+user+"/last_processed.md", "r")
+		return open("/home/"+user+"/last_processed.md", "r").read()
 	except:
 		return None
 
