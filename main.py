@@ -303,7 +303,10 @@ def transcribeFromFile(evt: gr.SelectData):
 	return
 
 def getLastFile():
-	return open("/home/"+user+"/last_processed.md", "r")
+	try:
+		return open("/home/"+user+"/last_processed.md", "r")
+	except:
+		return None
 
 
 def get_mrn(transcribed_text):
@@ -414,7 +417,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 	with gr.Tab("History"):
 		gr.Markdown(title)
 
-		gr.Markdown(label="Last Process", value=getLastFile())
+		gr.Markdown(label="Last Process", value=getLastFile()z)
 		
 
 	
