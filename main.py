@@ -417,7 +417,11 @@ with gr.Blocks(head=shortcut_js) as demo:
 	with gr.Tab("History"):
 		gr.Markdown(title)
 
-		gr.Markdown(label="Last Process", value=getLastFile())
+		reload_button = gr.Button(value="Reload", fn=getLastFile, outputs=last_process)
+
+		last_process = gr.Markdown(label="Last Process", value=getLastFile())
+
+		gr.re
 		
 
 	
