@@ -417,7 +417,7 @@ with gr.Blocks(head=shortcut_js) as demo:
 	with gr.Tab("History"):
 		gr.Markdown(title)
 
-		gr.Markdown(label="Last Process", value=getLastFile()z)
+		gr.Markdown(label="Last Process", value=getLastFile())
 		
 
 	
