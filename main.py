@@ -40,7 +40,7 @@ process_types = {
 	"Email": "asst_UHCjHjKO8nIYR8ZFAu6H9lDU",
 	"Notes": "asst_scDIjxOiR180LjoGclOJPI0i"
 }
-default_process_type = "Correspondence Letter"
+default_process_type = "Results Letter"
 last_process_type = default_process_type
 #Test comment
 
