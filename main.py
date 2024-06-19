@@ -44,6 +44,8 @@ default_process_type = "Correspondence Letter"
 last_process_type = default_process_type
 #Test comment
 
+
+
 frontmatter = ""
 #frontmatter = "---\nMRN: \ndateCreated: '"+datetime.now().date().isoformat()+"'\ntimeCreated: '"+datetime.now().replace(microsecond=0).time().isoformat()+"'\ntags: dictation\n---\n"
 
@@ -190,6 +192,9 @@ def save_result(processed_result, extra_tag):
 	with open("/home/"+user+"/vaults/obsidian/001 Inbox/"+timestamp+".md", "w") as output_file:
 		output_file.write(frontmatter)
 		output_file.write(processed_result)
+	with open("/home/"+user+"/last_processed.md", "w") as last_file:
+		last_file.write(frontmatter)
+		last_file.write(processed_result)
 	return output_file
 
 
@@ -297,6 +302,9 @@ def selectRecordingFile(evt: gr.SelectData, aio_file, aio_model, aio_response_ty
 def transcribeFromFile(evt: gr.SelectData):
 	return
 
+def getLastFile():
+	return open("/home/"+user+"/last_processed.md", "r")
+
 
 def get_mrn(transcribed_text):
 	match = re.match('\d{4,8}', transcribed_text)
@@ -402,6 +410,11 @@ with gr.Blocks(head=shortcut_js) as demo:
 		t_submit_button.click(fn=transcript, inputs=[t_audio, t_model, t_response_type, t_always_process_checkbox, t_process_type, t_streaming_checkbox, t_state], outputs=t_output_text, api_name=False)
 		#t_process_button.click(fn=process, inputs=[t_output_text, t_process_type], outputs=t_processed_text)
 		#aio_always_process_checkbox.change(fn=checkbox_change, inputs=[always_process_checkbox], outputs=[process_button])
+
+	with gr.Tab("History"):
+		gr.Markdown(title)
+
+		gr.Markdown(label="Last Process" value="")
 		
 
 	
