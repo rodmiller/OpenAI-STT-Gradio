@@ -1,15 +1,19 @@
 name: dictaphone
 
 services:
-  # dictaphone:
-  #   build:
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   volumes:
-  #     - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
-  #     - ./:/app
-  #   ports:
-  #     - 7860:7860
+  dictaphone:
+     build:
+       dockerfile: Dockerfile
+     restart: always
+     volumes:
+       - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
+       - .:/usr/src/app
+     ports:
+       - 7860:7860
+     environment:
+       - DEVICE="MBP"
+       - OPENAI_API_KEY="XX"
+       - USER="Robert"
 
   redis:
     container_name: dict-redis
