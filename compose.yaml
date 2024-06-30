@@ -9,11 +9,13 @@ services:
        - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
        - .:/usr/src/app
      ports:
-       - 7860:7860
+       - 7861:7861
      environment:
        - DEVICE="MBP"
        - OPENAI_API_KEY="XX"
        - USER="Robert"
+       - GRADIO_SERVER_NAME="0.0.0.0"
+     command: python3 main.py --port 7861
 
   redis:
     container_name: dict-redis
