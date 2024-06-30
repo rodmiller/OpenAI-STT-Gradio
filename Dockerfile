@@ -7,6 +7,7 @@ RUN pip install -r requirements.txt
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends git
+RUN git config --global --add safe.directory /usr/src/app
 EXPOSE 7860
 ENV GRADIO_SERVER_NAME="0.0.0.0"
 
