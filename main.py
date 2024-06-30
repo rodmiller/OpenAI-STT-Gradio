@@ -429,4 +429,4 @@ with gr.Blocks(head=shortcut_js) as demo:
 	
 
 
-demo.launch()
+demo.launch(server_port=7860)
