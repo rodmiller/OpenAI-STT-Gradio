@@ -25,7 +25,7 @@ pa.flyingcrank.com {
 		copy_headers Remote-User Remote-Groups Remote-Name Remove-Email
 		import trusted_proxy_list
 	}
-	reverse_proxy localhost:7861 {
+	reverse_proxy localhost:7860 {
 		import trusted_proxy_list
 	}
 }
