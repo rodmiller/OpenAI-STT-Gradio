@@ -2,20 +2,21 @@ name: dictaphone
 
 services:
   dictaphone:
-     image: gradio-dictaphone:latest
-     #restart: always
-     volumes:
-       - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
-       - .:/usr/src/app
-       - /home/azureuser/recordings:/recordings
-     ports:
-       - 7860:7860
-     environment:
-       - DEVICE="MBP"
-       - OPENAI_API_KEY="XX"
-       - USER="Robert"
-       - GRADIO_SERVER_NAME="0.0.0.0"
-       - GRADIO_SERVER_PORT=7860
+    image: gradio-dictaphone:latest
+    #restart: always
+    volumes:
+      - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
+      - .:/usr/src/app
+      - /home/azureuser/recordings:/recordings
+    ports:
+      - 7860:7860
+    network_mode: host
+    environment:
+      - DEVICE="MBP"
+      - OPENAI_API_KEY="XX"
+      - USER="Robert"
+      - GRADIO_SERVER_NAME="0.0.0.0"
+      - GRADIO_SERVER_PORT=7860
 
   redis:
     container_name: dict-redis
