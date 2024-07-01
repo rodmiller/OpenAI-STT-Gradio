@@ -14,7 +14,7 @@ services:
       - /home/azureuser/recordings:/recordings
     environment:
       - DEVICE="MBP"
-      - OPENAI_API_KEY="sk-proj-R93579BZKErlDQFMbRjOT3BlbkFJoMzMQTFlVVY710he1ltP"
+      - OPENAI_API_KEY="XX"
       - USER="Robert"
       - GRADIO_SERVER_NAME="0.0.0.0"
       - GRADIO_SERVER_PORT=7860
