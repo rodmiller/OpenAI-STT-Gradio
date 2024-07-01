@@ -2,8 +2,7 @@ name: dictaphone
 
 services:
   dictaphone:
-     build:
-       dockerfile: Dockerfile
+     image: gradio-dictaphone:latest
      #restart: always
      volumes:
        - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
