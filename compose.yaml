@@ -1,23 +1,23 @@
 name: dictaphone
 
 services:
-  
-  gradio:
-    container_name: dict-gradio
-    image: gradio-dictaphone:latest
-    ports:
-      - "7860:7861"
-    #restart: always
-    volumes:
-      - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
-      - .:/usr/src/app
-      - /home/azureuser/recordings:/recordings
-    environment:
-      - DEVICE="MBP"
-      - OPENAI_API_KEY=""
-      - USER="Robert"
-      - GRADIO_SERVER_NAME="0.0.0.0"
-      - GRADIO_SERVER_PORT=7860
+  # docker start -p 7860:7860 -v /home/azureuser/vaults/obsidian/001\ Inbox:/vault -v .:/usr/src/app -v /home/azureuser/recordings:/recordings -e DEVICE="Azure" -e OPENAI_API_KEY=$(OPENAI_API_KEY) --restart always gradio-dictaphone:latest
+  # gradio:
+  #   container_name: dict-gradio
+  #   image: gradio-dictaphone:latest
+  #   ports:
+  #     - "7860:7861"
+  #   #restart: always
+  #   volumes:
+  #     - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
+  #     - .:/usr/src/app
+  #     - /home/azureuser/recordings:/recordings
+  #   environment:
+  #     - DEVICE="MBP"
+  #     - OPENAI_API_KEY=""
+  #     - USER="Robert"
+  #     - GRADIO_SERVER_NAME="0.0.0.0"
+  #     - GRADIO_SERVER_PORT=7860
 
   redis:
     container_name: dict-redis
