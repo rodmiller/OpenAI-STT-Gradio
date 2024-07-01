@@ -1,19 +1,22 @@
 name: dictaphone
 
 services:
-  dictaphone:
+  
+  gradio:
     image: gradio-dictaphone:latest
+    ports:
+      - 7860:7860
+    networks:
+      - searxng
     #restart: always
     volumes:
       - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
       - .:/usr/src/app
       - /home/azureuser/recordings:/recordings
-    ports:
-      - 7860:7860
     network_mode: host
     environment:
       - DEVICE="MBP"
-      - OPENAI_API_KEY="XX"
+      - OPENAI_API_KEY=""
       - USER="Robert"
       - GRADIO_SERVER_NAME="0.0.0.0"
       - GRADIO_SERVER_PORT=7860
