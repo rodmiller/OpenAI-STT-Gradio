@@ -30,6 +30,7 @@ device = ''
 device = os.getenv("DEVICE")
 print(user)
 print(device)
+print(Main_docker.py)
 
 process_types = {
 	"Referral": "asst_ZHAae4G9DOxgJcbRd6rdAZrv",
