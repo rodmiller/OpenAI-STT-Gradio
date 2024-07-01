@@ -6,7 +6,7 @@ services:
     container_name: dict-gradio
     image: gradio-dictaphone:latest
     ports:
-      - 7860:7860
+      - "7860:7860"
     #restart: always
     volumes:
       - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
