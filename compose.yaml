@@ -6,7 +6,7 @@ services:
     container_name: dict-gradio
     image: gradio-dictaphone:latest
     ports:
-      - "7860:7860"
+      - "7860:7861"
     #restart: always
     volumes:
       - /home/azureuser/vaults/obsidian/001\ Inbox:/vault
@@ -38,9 +38,7 @@ services:
   caddy:
     container_name: dict-caddy
     image: caddy:latest
-    ports:
-      - "80:80"
-      - "443:443"
+    network_mode: host
     restart: always
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
