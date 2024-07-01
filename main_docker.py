@@ -115,25 +115,25 @@ def transcript(audio, model, response_type, checkbox_value, process_type, stream
 		#Export the audioSegment to a file
 		gr.Info("Assembling chunks")
 		assembled_segments = None
-		#print("Set assembled chunks to None")
+		print("Set assembled chunks to None")
 		#print("STATE: "+ str(state))
 
 		for chunk in state:
 			if not assembled_segments:
-				#print("First Chunk: " + str(chunk))
+				print("First Chunk: " + str(chunk))
 				assembled_segments = AudioSegment.from_wav(chunk)
 			else:
-				#print("Adding Chunk: "+ str(chunk))
+				print("Adding Chunk: "+ str(chunk))
 				assembled_segments = assembled_segments + AudioSegment.from_wav(chunk)
-		#print("Finished compiling segments")
+		print("Finished compiling segments")
 		stamp = datetime.now().replace(microsecond=0).isoformat()
 		audio_file_path = "/recordings/"+stamp+".wav"
-		#print("Going to be saving to: " + audio_file_path)
-		#print("Assembling chunks")
+		print("Going to be saving to: " + audio_file_path)
+		print("Assembling chunks")
 		assembled_segments.export(audio_file_path, format="wav")
-		#print("File saved to: "+audio_file_path)
+		print("File saved to: "+audio_file_path)
 	try:
-		#print(get_user(gr.Request()))
+		print(get_user(gr.Request()))
 		gr.Info("Uploading audio...")
 		client = OpenAI(api_key=openai_key)
 		gr.Info("Transcribing...")
